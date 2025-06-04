@@ -38,7 +38,11 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize(),
-                    topBar = {TopBar(topBarTitle)},
+                    topBar = {
+                        if (currentRoute != "main") {
+                            TopBar(topBarTitle)
+                        }
+                             },
                     bottomBar = {NaviBar(navController)})
                 { innerPadding ->
                     NavGraph(
