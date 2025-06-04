@@ -41,8 +41,8 @@ fun FeatureButton(
 ) {
     Box(
         modifier = Modifier
-            .width(139.dp)
-            .height(139.dp)
+            .width(141.dp)
+            .height(141.dp)
             .padding(4.dp) // 그림자 공간 확보
     ) {
         // 그림자 역할 Box (오른쪽 아래로 살짝 이동)
@@ -67,7 +67,7 @@ fun FeatureButton(
                 .height(131.dp)
                 .background(color = Color(0xE5FFFFFF), shape = RoundedCornerShape(size = 20.dp))
                 .clickable { onClick() }
-                .padding(vertical = 16.dp, horizontal = 16.dp),
+                .padding(vertical = 18.dp, horizontal = 14.dp),
             horizontalAlignment = Alignment.Start
         ) {
             Image(
@@ -89,10 +89,11 @@ fun FeatureButton(
                 )
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             Text(
                 text = buttonText,
+                maxLines = 1,
                 style = TextStyle(
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Medium,
@@ -109,9 +110,9 @@ fun FeatureButton(
 fun FeatureButtonPreview() {
     HangyulTheme {
         FeatureButton(
-            imageRes = R.drawable.ic_main_diary,
-            buttonTitle = "음성 일기",
-            buttonText = "하루를 기록해보세요.",
+            imageRes = R.drawable.ic_main_memory,
+            buttonTitle = "추억 기록",
+            buttonText = "소중한 순간을 기억해요.",
             onClick = {}
         )
     }
