@@ -1,31 +1,18 @@
 package com.android.hangyul.ui.screen.main
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.android.hangyul.ui.theme.HangyulTheme
+import androidx.compose.material3.Text
+import androidx.navigation.NavController
 
 @Composable
-fun MainScreen() {
-    Column(
-        modifier = Modifier
-            .padding(horizontal = 24.dp, vertical = 16.dp)
+fun MainPage(navController: NavController) {
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        EmotionAnalysisCard(
-            "오늘은 조금 지친 마음이 느껴졌어요",
-            "오늘도 잘 버텼어요. 마음이 괜찮아 질거예요.",
-            "5/27(화)",
-            onClick = {})
-        FeatureButtonGrid()
+        Text("메인 페이지") // 예시
     }
 }
-@Composable
-@Preview
-fun MainScreenPreview(){
-    HangyulTheme {
-        MainScreen()
-    }
-}
+

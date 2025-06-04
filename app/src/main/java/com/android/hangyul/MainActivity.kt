@@ -7,11 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.android.hangyul.navigation.NavGraph
+import androidx.navigation.compose.rememberNavController
 import com.android.hangyul.ui.theme.HangyulTheme
+import com.android.hangyul.ui.components.NaviBar
+import com.android.hangyul.ui.components.TopBar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +22,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HangyulTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+
+                val currentRoute = navController
+                    .currentBackStackEntryAsState().value
+                    ?.destination?.route
+
+                val topBarTitle = when (currentRoute) {
+                    "main" -> "한결이"
+                    "diary" -> "음성 일기"
+                    "routine" -> "일상 관리"
+                    "brainTraining" -> "두뇌 훈련"
+                    "memory" -> "추억 기록"
+                    else -> "한결이"
+                }
+
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    topBar = {TopBar(topBarTitle)},
+                    bottomBar = {NaviBar(navController)})
+                { innerPadding ->
+                    NavGraph(
+                        navController = navController,
+                        modifier = Modifier.padding(innerPadding))
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HangyulTheme {
-        Greeting("Android")
     }
 }
