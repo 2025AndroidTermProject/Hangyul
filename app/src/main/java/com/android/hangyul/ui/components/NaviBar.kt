@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -65,6 +67,7 @@ fun NavItem(icon:Int, page: String) {
         Text(
             text = page,
             fontSize = 12.sp,
+            fontFamily = FontFamily(Font(R.font.pretendard_medium)),
             fontWeight = FontWeight.Medium
         )
     }
