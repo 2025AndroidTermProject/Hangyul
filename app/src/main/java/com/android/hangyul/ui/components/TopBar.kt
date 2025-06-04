@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -32,20 +33,22 @@ import com.android.hangyul.ui.theme.Purple
 fun TopBar(pageName:String) {
     Box(
         modifier = Modifier
-            .width(360.dp)
+            .fillMaxWidth()
             .height(100.dp)
-            .clip(RoundedCornerShape(25.dp))
+            .clip(RoundedCornerShape(
+                bottomEnd = 25.dp,
+                bottomStart = 25.dp))
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(Purple, Blue)
                 )
             )
-            .padding(start = 35.dp, top = 55.dp,)
     )
     {
 
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .padding(start = 35.dp, top = 55.dp, end = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

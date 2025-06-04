@@ -2,6 +2,7 @@ package com.android.hangyul.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,10 @@ fun NaviBar() {
             .height(90.dp)
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
             .background(Color.White)
+            .border(
+                width = 0.5.dp,
+                color = Color.Gray,
+            )
             .padding(vertical = 12.dp, horizontal = 16.dp)
 
     ) {
