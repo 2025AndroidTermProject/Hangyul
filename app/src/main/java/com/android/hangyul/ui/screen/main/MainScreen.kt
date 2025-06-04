@@ -1,18 +1,18 @@
-package com.android.hangyul.ui.screen.routine
+package com.android.hangyul.ui.screen.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.material3.Text
 import androidx.navigation.NavController
 
-
 @Composable
-fun RoutinePage(navController: NavController) {
+fun MainPage(navController: NavController) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        Text("일상 관리 페이지") // 예시
+        Text("메인 페이지") // 예시
     }
 }
+
