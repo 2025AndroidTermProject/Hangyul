@@ -9,6 +9,7 @@ import com.android.hangyul.ui.screen.braintraining.BrainTrainingPage
 import com.android.hangyul.ui.screen.diary.DiaryPage
 import com.android.hangyul.ui.screen.main.MainPage
 import com.android.hangyul.ui.screen.memory.MemoryPage
+import com.android.hangyul.ui.screen.routine.AlarmListPage
 import com.android.hangyul.ui.screen.routine.RoutinePage
 
 
