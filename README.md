@@ -18,9 +18,10 @@
     2. 가족과의 추억을 얼굴 사진과 매칭 시켜 반복적으로 열람, 상기시키는 기능 
     → 추억을 잊지 않도록…ㅜㅜ
 ## 🛠️기술 스택
+- 
 | 범주 | 사용 기술 |
 | --- | --- |
-| **프론트엔드** | Android Studio + Java |
+| **프론트엔드** | kotlin 활용하여 jetpack compose 방식 |
 | **백엔드** | Firebase Realtime DB or Firestore |
 | **API** | Google Speech-to-Text, Naver Map API |
 | **ML** | beomi/KcELECTRA → TFLite 변환 → 감정 분석 |
