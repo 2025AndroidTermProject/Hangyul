@@ -19,4 +19,4 @@ val Blue = Color(0xFFAB66F9)
 
 val Gray80 = Color(0xFF444444)
 
-val BackGroundColor = Color(0xF1F0FF)
+val restorePurple = Color(0xFF7847EB)
