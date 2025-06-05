@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import androidx.compose.foundation.Image
+import com.android.hangyul.ui.theme.Purple60
 import com.android.hangyul.ui.theme.Purple80
 
 @Composable
@@ -32,7 +33,7 @@ fun AddBtn(text:String) {
         modifier = Modifier
             .width(138.dp)
             .height(56.dp)
-            .background(color = Purple80, shape = RoundedCornerShape(size=28.dp))
+            .background(color = Purple60, shape = RoundedCornerShape(size=28.dp))
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_btn_add),

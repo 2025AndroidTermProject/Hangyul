@@ -30,7 +30,7 @@ fun AlarmList(hour: Int, min: Int, text: String) {
         modifier = Modifier
             .fillMaxWidth()
             .background(color = Purple80)
-            .padding(vertical = 20.dp),
+            .padding(vertical = 15.dp),
 
         verticalAlignment = Alignment.CenterVertically
     ){
