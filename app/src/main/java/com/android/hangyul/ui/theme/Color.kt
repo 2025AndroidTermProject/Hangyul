@@ -16,3 +16,7 @@ val Purple = Color(0xFF6152FF)
 val Purple60 = Color(0xFFBFADEB)
 
 val Blue = Color(0xFFAB66F9)
+
+val Gray80 = Color(0xFF444444)
+
+val BackGroundColor = Color(0xF1F0FF)
