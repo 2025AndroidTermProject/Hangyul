@@ -26,11 +26,11 @@ import com.android.hangyul.ui.theme.Purple60
 import com.android.hangyul.ui.theme.Purple80
 
 @Composable
-fun AddBtn(text:String) {
+fun AddBtn(text:String, modifier: Modifier) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .width(138.dp)
             .height(56.dp)
             .background(color = Purple60, shape = RoundedCornerShape(size=28.dp))
@@ -51,10 +51,4 @@ fun AddBtn(text:String) {
             )
         )
     }
-}
-
-@Preview
-@Composable
-fun AddBtnPreview() {
-    AddBtn("추억 등록")
 }
