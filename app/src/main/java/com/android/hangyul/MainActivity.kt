@@ -34,6 +34,8 @@ class MainActivity : ComponentActivity() {
                     "routine" -> "일상 관리"
                     "brainTraining" -> "두뇌 훈련"
                     "memory" -> "추억 기록"
+                    "alarmList" -> "일상 관리"
+                    "alarmAdd" -> "일상 관리"
                     else -> "한결이"
                 }
 

@@ -21,9 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddInputField
+import com.android.hangyul.viewmodel.AlarmViewModel
 
 @Composable
-fun AlarmAddPage(onTimeSelected: (Int, Int) -> Unit) {
+fun AlarmAddPage(viewModel: AlarmViewModel, onSave: ()->Unit) {
 
     Column (
         modifier = Modifier
@@ -46,9 +47,15 @@ fun AlarmAddPage(onTimeSelected: (Int, Int) -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            AddInputField("알람 이름")
+            AddInputField(
+                text = viewModel.alarmName,
+                onTextChanged = { viewModel.alarmName = it },
+                placeholderText = "알람 이름")
             Spacer(modifier = Modifier.height(10.dp))
-            AddInputField("약 이름")
+            AddInputField(
+                text = viewModel.medicineName,
+                onTextChanged = { viewModel.medicineName = it },
+                placeholderText = "약 이름")
         }
 
         Spacer(modifier = Modifier.height(35.dp))
@@ -65,20 +72,13 @@ fun AlarmAddPage(onTimeSelected: (Int, Int) -> Unit) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        TimePicker(onTimeSelected = onTimeSelected)
+        TimePicker { hour, minute ->
+            viewModel.hour = hour
+            viewModel.minute = minute
+            onSave()
+        }
 
 
 
-    }
-}
-
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xF1F0FF
-)
-@Composable
-fun AlarmAddPagePreview() {
-    AlarmAddPage{ hour, minute ->
-        println("Preview에서 선택한 시간: $hour:$minute")
     }
 }

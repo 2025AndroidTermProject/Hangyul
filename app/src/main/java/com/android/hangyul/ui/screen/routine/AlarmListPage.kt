@@ -1,5 +1,6 @@
 package com.android.hangyul.ui.screen.routine
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +24,7 @@ import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddBtn
 
 @Composable
-fun AlarmListPage() {
+fun AlarmListPage(navController: NavController) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -53,17 +54,9 @@ fun AlarmListPage() {
                 .padding(end = 25.dp, bottom = 25.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            AddBtn("알람 등록")
+            AddBtn("알람 등록", modifier = Modifier.clickable { navController.navigate("alarmAdd") })
         }
     }
 
 }
 
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFFFFFF
-)
-@Composable
-fun AlarmListPagePreview() {
-    AlarmListPage()
-}

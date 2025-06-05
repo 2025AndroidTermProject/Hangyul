@@ -15,15 +15,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.android.hangyul.ui.theme.Gray80
 
 @Composable
-fun AddInputField(text: String) {
+fun AddInputField(
+    text: String,
+    onTextChanged: (String) -> Unit,
+    placeholderText: String) {
     var inputText by remember { mutableStateOf("") }
 
     TextField(
-        value = inputText,
-        onValueChange = { inputText = it },
+        value = text,
+        onValueChange = onTextChanged,
         placeholder = {
             Text(
-                text = text,
+                text = placeholderText,
                 color = Gray80
             )
         },
@@ -48,11 +51,5 @@ fun AddInputField(text: String) {
             errorIndicatorColor = Color.Transparent
         )
     )
-}
-
-@Preview
-@Composable
-fun addFieldPreview() {
-    AddInputField("test")
 }
 

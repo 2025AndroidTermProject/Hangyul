@@ -31,9 +31,10 @@ import com.android.hangyul.ui.theme.Purple80
 
 
 @Composable
-fun ListBtn(icon:Int, text:String, description:String) {
+fun ListBtn(icon:Int, text:String, description:String,
+            modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(320.dp)
             .background(
                 brush = Brush.linearGradient(

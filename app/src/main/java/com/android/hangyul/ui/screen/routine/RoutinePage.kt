@@ -1,5 +1,6 @@
 package com.android.hangyul.ui.screen.routine
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.ListBtn
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 data class routineList(
     val icon: Int,
@@ -49,7 +49,9 @@ fun RoutinePage(navController: NavController) {
             .padding(top = 20.dp),
 
     ){
-        ListBtn(medicine.icon, medicine.text, medicine.description)
+        ListBtn(medicine.icon, medicine.text, medicine.description, modifier = Modifier.clickable {
+            navController.navigate("alarmList")
+        })
         Spacer(modifier = Modifier.height(15.dp))
         ListBtn(location.icon, location.text, location.description)
     }
