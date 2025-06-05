@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,12 +34,17 @@ fun EmotionAnalysisCard(
     analysisText: String,
     encouragementMsg: String,
     date:String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier
 ) {
     Box(
         modifier = Modifier
-            .shadow(elevation = 4.dp, spotColor = Color(0x40000000), ambientColor = Color(0x40000000))
-            .width(320.dp)
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(20.dp),
+                spotColor = Color(0x40000000),
+                ambientColor = Color(0x40000000))
+            .fillMaxWidth()
             .height(173.dp)
             .background(color = Color(0x40FFFFFF), shape = RoundedCornerShape(20.dp))
             .padding(18.dp)
@@ -49,7 +55,7 @@ fun EmotionAnalysisCard(
             // 타이틀
             Text(
                 text = "오늘의 감정 분석 결과",
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 fontFamily = FontFamily(Font(R.font.pretendard_bold))
@@ -66,7 +72,7 @@ fun EmotionAnalysisCard(
                 Text(
                     text = analysisText,
                     color = Color.White,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     fontFamily = FontFamily(Font(R.font.pretendard_medium))
                 )
             }
@@ -83,7 +89,7 @@ fun EmotionAnalysisCard(
                     Text(
                         text = encouragementMsg,
                         color = Color.White,
-                        fontSize = 14.sp,
+                        fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.pretendard_medium))
                     )
 
@@ -111,6 +117,7 @@ fun EmotionAnalysisCardPreview(){
             "오늘은 조금 지친 마음이 느껴졌어요",
             "오늘도 잘 버텼어요. 마음이 괜찮아 질거예요.",
             "5/27(화)",
-            onClick = {})
+            onClick = {},
+            modifier = Modifier)
     }
 }
