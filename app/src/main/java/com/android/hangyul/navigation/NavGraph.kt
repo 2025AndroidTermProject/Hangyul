@@ -10,6 +10,8 @@ import androidx.navigation.compose.composable
 import com.android.hangyul.ui.screen.braintraining.BrainTrainingPage
 import com.android.hangyul.ui.screen.diary.DiaryPage
 import com.android.hangyul.ui.screen.main.MainPage
+import com.android.hangyul.ui.screen.memory.MemoryAddPage
+import com.android.hangyul.ui.screen.memory.MemoryDetailPage
 import com.android.hangyul.ui.screen.memory.MemoryPage
 import com.android.hangyul.ui.screen.routine.AlarmAddPage
 import com.android.hangyul.ui.screen.routine.AlarmListPage
@@ -25,6 +27,9 @@ private object Routes {
 
     const val ALARM_LIST = "alarmList"
     const val ALARM_ADD = "alarmAdd"
+
+    const val MEMORY_DETAIL = "memoryDetail"
+    const val MEMORY_ADD = "memoryAdd"
 }
 
 @Composable
@@ -37,10 +42,13 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
         composable(Routes.MEMORY) { MemoryPage(navController) }
 
         composable(Routes.ALARM_LIST) { AlarmListPage(navController) }
-        composable("alarmAdd") {
+        composable(Routes.ALARM_ADD) {
             AlarmAddPage(viewModel = viewModel()) {
                 navController.popBackStack()
             }
         }
+
+        composable(Routes.MEMORY_DETAIL) { MemoryDetailPage(navController)}
+        composable(Routes.MEMORY_ADD) { MemoryAddPage(viewModel = viewModel()) {navController.popBackStack() }}
     }
 }
