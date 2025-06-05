@@ -41,7 +41,7 @@ fun TopSectionCard() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(32.dp))
+                .clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
                 .background(
                     Brush.verticalGradient(
                         listOf(Color(0xFF8B6DE0), Color(0xFFB79BFA))

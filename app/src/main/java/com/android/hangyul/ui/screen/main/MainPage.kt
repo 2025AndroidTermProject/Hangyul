@@ -29,28 +29,14 @@ fun MainPage(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp)
         ) {
-            Spacer(modifier = Modifier.height(60.dp))
-
-            // 상단 프로필 및 앱 이름
+            // 상단 보라색 카드
             TopSectionCard()
-
-            Spacer(modifier = Modifier.height(30.dp))
-
-            // 감정 분석 카드
-            EmotionAnalysisCard("오늘은 조금 지친 마음이 느껴졌어요",
-                "오늘도 잘 버텼어요. 마음이 괜찮아 질거예요.",
-                "5/27(화)",
-                onClick = {},
-                modifier = Modifier)
-
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(10.dp))
 
             // 4개 버튼 그리드
             FeatureButtonGrid()
-
-            Spacer(modifier = Modifier.weight(1f))
+//            Spacer(modifier = Modifier.weight(1f))
         }
 
         // 하단 네비게이션 바
