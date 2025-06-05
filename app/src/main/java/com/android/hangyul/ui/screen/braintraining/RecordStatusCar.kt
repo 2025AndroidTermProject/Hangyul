@@ -59,7 +59,7 @@ fun RecordingStatusCard(
                         Color(0xFF0045B5).copy(alpha=0.4f)),
                     startY = 0f, endY = 1000f
                 ),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(22.dp)
             )
             .padding(20.dp)
     ) {
@@ -155,7 +155,7 @@ fun IconWithText(text: String, color: Color) {
 @Preview(showBackground = true)
 fun RecordBoxPreview(){
     HangyulTheme {
-        val state = remember { mutableStateOf(RecordingState.Finished) }
+        val state = remember { mutableStateOf(RecordingState.Recording) }
 
         RecordingStatusCard(
             date = "2025년 5월 27일 (화)",
