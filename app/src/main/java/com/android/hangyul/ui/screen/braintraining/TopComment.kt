@@ -50,7 +50,7 @@ fun TopComment(){
         Text(
             text = "오늘의 하루를 목소리로\n기록해봐요.",
             style = TextStyle(
-                fontSize = 22.sp,
+                fontSize = 25.sp,
                 lineHeight = 30.sp,
                 fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
                 fontWeight = FontWeight(600),
