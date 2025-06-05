@@ -60,15 +60,6 @@ fun TopBar(pageName:String) {
                     color = Color.White
                 )
             )
-
-            Image(
-                modifier = Modifier
-                    .padding(end=20.dp)
-                    .width(20.dp)
-                    .height(25.dp),
-                painter = painterResource(id = R.drawable.ic_top_options), // PNG 넣은 파일명
-                contentDescription = "optionBar",
-            )
         }
     }
 }
