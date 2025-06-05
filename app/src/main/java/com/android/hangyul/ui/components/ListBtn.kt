@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,9 +25,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
+import com.android.hangyul.ui.theme.Blue80
 import com.android.hangyul.ui.theme.Purple40
 import com.android.hangyul.ui.theme.Purple80
-import com.android.hangyul.ui.theme.PurpleGrey80
 
 
 @Composable
@@ -34,11 +35,11 @@ fun ListBtn(icon:Int, text:String, description:String) {
     Box(
         modifier = Modifier
             .width(320.dp)
-            .height(86.dp)
             .background(
                 brush = Brush.linearGradient(
-                    colors = listOf(Purple80, PurpleGrey80)),
-                shape = RoundedCornerShape(size=20.dp)),
+                    colors = listOf(Purple80, Blue80)),
+                shape = RoundedCornerShape(size=20.dp))
+            .padding(horizontal = 16.dp, vertical = 18.dp),
         contentAlignment = Alignment.Center
 
     ){
@@ -74,7 +75,7 @@ fun ListBtn(icon:Int, text:String, description:String) {
                     text = description,
                     style = TextStyle(
                         fontSize = 14.sp,
-                        lineHeight = 30.sp,
+                        lineHeight = 15.sp,
                         fontFamily = FontFamily(Font(R.font.pretendard_medium)),
                         fontWeight = FontWeight(600),
                         color = Purple40,
