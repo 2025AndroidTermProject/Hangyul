@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.hangyul.R
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.android.hangyul.ui.theme.HangyulTheme
 
 
 @Composable
@@ -37,14 +40,16 @@ fun NaviBar(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
+            )
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
             .background(Color.White)
-            .border(
-                width = 0.5.dp,
-                color = Color.Gray,
-            )
             .padding(top = 12.dp, start = 16.dp, end = 16.dp, bottom = 12.dp)
             .navigationBarsPadding()
+
 
     ) {
         Row(
@@ -61,7 +66,13 @@ fun NaviBar(navController: NavController) {
         }
     }
 }
-
+@Composable
+@Preview
+fun NaviBarPreview(){
+    HangyulTheme {
+        NaviBar(navController = rememberNavController())
+    }
+}
 @Composable
 fun NavItem(icon:Int, page: String, navController: NavController, route: String) {
     Column (

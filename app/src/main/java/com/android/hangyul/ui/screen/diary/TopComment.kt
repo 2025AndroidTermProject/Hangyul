@@ -27,10 +27,10 @@ import com.android.hangyul.R
 import com.android.hangyul.ui.theme.HangyulTheme
 
 @Composable
-fun TopComment(){
+fun TopComment(comment : String){
     Row(
         horizontalArrangement = Arrangement.spacedBy(5.dp, Alignment.Start),
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .padding(15.dp)
@@ -44,7 +44,7 @@ fun TopComment(){
         )
         Spacer(modifier = Modifier.width(5.dp))
         Text(
-            text = "오늘의 하루를 목소리로\n기록해봐요.",
+            text = comment,
             style = TextStyle(
                 fontSize = 25.sp,
                 lineHeight = 30.sp,
@@ -61,6 +61,6 @@ fun TopComment(){
 @Preview(showBackground = true)
 fun TopCommentPreview(){
     HangyulTheme {
-        TopComment()
+        TopComment("지난 일기 기록")
     }
 }

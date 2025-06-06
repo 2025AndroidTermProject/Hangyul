@@ -64,64 +64,13 @@ fun DiaryHistoryCard(
                 color = Color(0xFF000000),
                 )
         )
-
         Spacer(modifier = Modifier.height(12.dp))
-
         entries.forEach { entry ->
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Color.White.copy(alpha = 0.5f))
-                    .clickable { onEntryClick(entry) }
-                    .padding(12.dp)
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(50))
-                            .background(Color.White.copy(alpha=0.75f))
-                            .padding(horizontal = 10.dp, vertical = 4.dp)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "🎙️", fontSize = 14.sp)
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Text(
-
-                                text = entry.date,
-                                style = TextStyle(
-                                    fontSize = 12.sp,
-                                    lineHeight = 30.sp,
-                                    fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFF000000)
-                                )
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Row {
-                        Text(text = entry.emoji, fontSize = 18.sp)
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            modifier = Modifier.align(Alignment.CenterVertically),
-                            text = "${entry.emotion}  |  “${entry.content}”",
-                            style = TextStyle(
-                                fontSize = 13.sp,
-                                lineHeight = 30.sp,
-                                fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF000000),
-
-                                )
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
+            MiniDiaryCard(
+                entry = entry,
+                onClick = { onEntryClick(entry) },
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
         }
     }
 }

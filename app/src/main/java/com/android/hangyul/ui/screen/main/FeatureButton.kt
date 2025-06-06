@@ -73,7 +73,8 @@ fun FeatureButton(
                     shape = RoundedCornerShape(size = 20.dp)
                 )
                 .clickable { onClick() }
-                .padding(vertical = 18.dp, horizontal = 14.dp),
+                .padding(vertical = 18.dp)
+                .padding(start = 12.dp,end = 5.dp),
             horizontalAlignment = Alignment.Start
         ) {
             Image(
@@ -87,7 +88,7 @@ fun FeatureButton(
 
             Text(
                 text = buttonTitle,
-                fontSize = 18.sp,
+                fontSize = 21.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                 color = Color(0xFF1C1C1C)
@@ -98,7 +99,7 @@ fun FeatureButton(
             Text(
                 text = buttonText,
                 maxLines = 1,
-                fontSize = 13.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Medium,
                 fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
                 color = Color(0xFF7E7E7E)
