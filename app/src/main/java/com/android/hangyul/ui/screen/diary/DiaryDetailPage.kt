@@ -29,6 +29,7 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
         Column(
             modifier = Modifier
                 .background(Color(0xFFF1F0FF))
+                .background(Purple80)
                 .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
                 .padding(top = 100.dp)
