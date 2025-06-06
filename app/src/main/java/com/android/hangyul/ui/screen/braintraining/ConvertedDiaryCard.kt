@@ -54,7 +54,7 @@ fun ConvertedDiaryCard(
             style = TextStyle(
                 fontSize = 15.sp,
                 lineHeight = 30.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
                 fontWeight = FontWeight(700),
                 color = Color(0xFF000000),
 
