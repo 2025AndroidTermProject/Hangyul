@@ -39,13 +39,7 @@ fun MainPage(navController: NavController) {
 //            Spacer(modifier = Modifier.weight(1f))
         }
 
-        // 하단 네비게이션 바
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-        ) {
-            NaviBar(navController = rememberNavController())
-        }
+
     }
 }
 
