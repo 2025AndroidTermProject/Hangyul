@@ -1,4 +1,4 @@
-package com.android.hangyul.ui.screen.braintraining
+package com.android.hangyul.ui.screen.diary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

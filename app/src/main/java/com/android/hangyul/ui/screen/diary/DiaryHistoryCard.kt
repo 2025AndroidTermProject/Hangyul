@@ -1,4 +1,4 @@
-package com.android.hangyul.ui.screen.braintraining
+package com.android.hangyul.ui.screen.diary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +38,7 @@ data class DiaryEntry(
 fun DiaryHistoryCard(
     entries: List<DiaryEntry>,
     modifier: Modifier = Modifier,
+    onHeaderClick: () ->Unit = {},
     onEntryClick: (DiaryEntry) -> Unit = {}
 ) {
     Column(
@@ -53,6 +54,8 @@ fun DiaryHistoryCard(
     ) {
         Text(
             text = "지난 일기 기록 보기 >",
+            modifier = Modifier
+                .clickable{onHeaderClick()},
             style = TextStyle(
                 fontSize = 16.sp,
                 lineHeight = 30.sp,
@@ -133,6 +136,9 @@ fun DiaryHistoryCardPreview() {
     HangyulTheme {
         DiaryHistoryCard(
             entries = dummyEntries,
+            onHeaderClick = {
+                println("헤더 클릭됨 - history 페이지 이동")
+            },
             onEntryClick = { clicked ->
                 println("클릭된 일기: ${clicked.date}")
             }
