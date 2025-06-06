@@ -31,7 +31,7 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                 .background(Color(0xFFF1F0FF))
                 .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
-                .padding(top = 100.dp)
+
         ) {
 
             // 날짜 + 말풍선 아이콘
@@ -141,7 +141,6 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                 }
             }
         }
-        TopBar("음성일기")
     }
 }
 @Preview(showBackground = true)

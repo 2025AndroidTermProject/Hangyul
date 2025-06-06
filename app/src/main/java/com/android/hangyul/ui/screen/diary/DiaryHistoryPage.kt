@@ -40,7 +40,6 @@ fun DiaryHistoryPage(
                 .background(Color(0xFFF1F0FF))
                 .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
-                .padding(top = 100.dp)
         ) {
 
             TopComment("지난 일기 기록")
@@ -64,7 +63,6 @@ fun DiaryHistoryPage(
             Spacer(modifier = Modifier.height(20.dp))
             }
         }
-        TopBar("음성일기")
     }
 }
 @Preview
