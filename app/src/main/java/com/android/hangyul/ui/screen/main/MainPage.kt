@@ -36,7 +36,6 @@ fun MainPage(navController: NavController) {
 
             // 4개 버튼 그리드
             FeatureButtonGrid()
-//            Spacer(modifier = Modifier.weight(1f))
         }
 
 

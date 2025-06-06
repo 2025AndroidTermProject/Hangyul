@@ -51,14 +51,11 @@ fun RecordingStatusCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
             .background(
-                Brush.verticalGradient(
-                    listOf(
-                        Color(0xFF7800FF).copy(alpha = 0.15f),
-                        Color(0xFF0045B5).copy(alpha=0.4f)),
-                    startY = 0f, endY = 1000f
-                ),
-                shape = RoundedCornerShape(22.dp)
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFFE5DFFF), Color(0xFFDCEAFF))
+                )
             )
             .padding(20.dp)
     ) {

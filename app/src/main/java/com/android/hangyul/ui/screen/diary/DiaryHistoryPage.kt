@@ -77,7 +77,6 @@ fun DiaryHistoryPagePreview() {
             DiaryEntry("5월 23일", "💖", "설렘", "내일도 행복하길 바라요~"),
             DiaryEntry("5월 22일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요")
         )
-
         HangyulTheme {
             DiaryHistoryPage(entries = dummyEntries)
         }

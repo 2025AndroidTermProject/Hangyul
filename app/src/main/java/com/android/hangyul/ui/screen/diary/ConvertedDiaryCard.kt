@@ -36,15 +36,11 @@ fun ConvertedDiaryCard(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp)) // clip 꼭 필요
+            .clip(RoundedCornerShape(20.dp))
             .background(
-                Brush.verticalGradient(
-                    listOf(
-                        Color(0xFF7800FF).copy(alpha = 0.15f),
-                        Color(0xFF0045B5).copy(alpha=0.3f)),
-                    startY = 0f, endY = 1000f
-                ),
-                shape = RoundedCornerShape(22.dp)
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFFE5DFFF), Color(0xFFDCEAFF))
+                )
             )
             .clickable { onClick() } // 클릭 처리
             .padding(horizontal = 20.dp, vertical = 16.dp)
