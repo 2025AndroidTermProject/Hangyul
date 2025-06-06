@@ -29,7 +29,6 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DiaryPage(
     navController: NavController,
@@ -48,7 +47,6 @@ fun DiaryPage(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp, vertical = 16.dp)
-                .padding(top = 100.dp)
         ) {
             TopComment("오늘의 하루를 목소리로 기록해보세요")
 
@@ -90,8 +88,6 @@ fun DiaryPage(
 
             Spacer(modifier = Modifier.height(80.dp)) // Bottom NavBar 공간 고려
         }
-
-        TopBar(pageName = "음성일기")
     }
 }
 
