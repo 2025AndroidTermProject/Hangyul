@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
-import com.android.hangyul.ui.screen.diary.DiaryPage
 import com.android.hangyul.ui.theme.HangyulTheme
 
 @Composable
