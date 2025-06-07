@@ -32,14 +32,15 @@ data class DiaryEntry(
     val date: String,
     val emoji: String,
     val emotion: String,
-    val content: String
+    val content: String,
+    val comment : String
 )
 @Composable
 fun DiaryHistoryCard(
     entries: List<DiaryEntry>,
     modifier: Modifier = Modifier,
-    onHeaderClick: () ->Unit = {},
-    onEntryClick: (DiaryEntry) -> Unit = {}
+    onHeaderClick: () ->Unit = {}, // 헤더(제목) 클릭 시 호출
+    onEntryClick: (DiaryEntry) -> Unit = {} // 엔트리(기록 카드) 클릭 시 호출
 ) {
     Column(
         modifier = modifier
@@ -78,8 +79,8 @@ fun DiaryHistoryCard(
 @Composable
 fun DiaryHistoryCardPreview() {
     val dummyEntries = listOf(
-        DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!"),
-        DiaryEntry("5월 25일", "🥺", "슬픔", "오늘은 혼자있는 시간이 많았나봐요")
+        DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!",""),
+        DiaryEntry("5월 25일", "🥺", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","")
     )
 
     HangyulTheme {

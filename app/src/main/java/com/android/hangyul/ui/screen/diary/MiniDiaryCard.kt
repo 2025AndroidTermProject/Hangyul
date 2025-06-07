@@ -94,7 +94,8 @@ fun SimpleDiaryCardPreview() {
                 date = "5월 27일",
                 emoji = "😊",
                 emotion = "행복",
-                content = "오늘은 기분이 좋았어요!"
+                content = "오늘은 기분이 좋았어요!",
+                comment = "위로 멘트"
             )
         )
     }
