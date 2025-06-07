@@ -14,15 +14,25 @@ data class Memory(
     val title: String,
     val date: String,
     val content: String,
+    val imageUrl: String? = null
 )
 
 class MemoryViewModel : ViewModel() {
     private val _memories = MutableStateFlow<List<Memory>>(emptyList())
     val memories = _memories.asStateFlow()
 
+    var imageUrl by mutableStateOf<String?>(null)  // 현재 업로드된 이미지 하나
+        private set
+
+    fun addImage(url: String) {
+        imageUrl = url
+    }
+
     fun addMemory(memory: Memory) {
         _memories.value = _memories.value + memory
-        Log.d("MemoryAdd", "New memory ID: ${memory.id}")
+    }
 
+    fun clearInputs() {
+        imageUrl = null
     }
 }

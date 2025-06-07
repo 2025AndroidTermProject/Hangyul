@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material3:material3:1.2.0-beta01") // 또는 최신 버전
     implementation("androidx.compose.material3:material3:1.2.0-alpha05") // 시간 피커 포함
