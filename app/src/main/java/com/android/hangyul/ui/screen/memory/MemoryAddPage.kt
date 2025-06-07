@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -64,9 +65,26 @@ fun MemoryAddPage(viewModel: MemoryViewModel, onSave: ()->Unit) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        OutlinedTextField(value = title, onValueChange = { title = it }, label = { Text("제목") })
-        OutlinedTextField(value = date, onValueChange = { date = it }, label = { Text("날짜") })
-        OutlinedTextField(value = content, onValueChange = { content = it }, label = { Text("내용") })
+        OutlinedTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = { Text("제목") },
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            value = date,
+            onValueChange = { date = it },
+            label = { Text("날짜") },
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            value = content,
+            onValueChange = { content = it },
+            label = { Text("내용") },
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+        )
 
 
         Spacer(modifier = Modifier.height(10.dp))
