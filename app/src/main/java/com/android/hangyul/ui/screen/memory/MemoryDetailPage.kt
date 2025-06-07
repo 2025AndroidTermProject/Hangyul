@@ -23,19 +23,27 @@ import androidx.navigation.NavController
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddBtn
 import androidx.compose.material3.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.hangyul.viewmodel.Memory
+import com.android.hangyul.viewmodel.MemoryViewModel
 
 
 @Composable
-fun MemoryDetailPage(navController: NavController) {
-    val memory = navController.previousBackStackEntry
-        ?.savedStateHandle
-        ?.get<Memory>("selectedMemory")
+fun MemoryDetailPage(navController: NavController,memoryId: String?, viewModel: MemoryViewModel) {
+    val memories by viewModel.memories.collectAsState()
+    val memory = memories.find { it.id == memoryId }
 
+
+    if (memory == null) {
+        Text("해당 추억을 찾을 수 없습니다.")
+        return
+    }
 
     Column (
         modifier = Modifier
@@ -43,9 +51,35 @@ fun MemoryDetailPage(navController: NavController) {
             .padding(horizontal = 25.dp, vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = memory?.title ?: "제목 없음")
-        Text(text = memory?.date ?: "날짜 없음")
-        Text(text = memory?.content ?: "내용 없음")
+        Text(text = memory.title,
+            style = TextStyle(
+                fontSize = 30.sp,
+                lineHeight = 30.sp,
+                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+            ))
+        Spacer(modifier = Modifier.height(6.dp))
+
+        Text(text = memory.date,
+            textAlign = TextAlign.End,
+            style = TextStyle(
+                fontSize = 14.sp,
+                lineHeight = 30.sp,
+                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                fontWeight = FontWeight(600),
+                color = Color(0xFF634F96),
+            ))
+        Spacer(modifier = Modifier.height(20.dp))
+
+
+        Text(text = memory.content,
+            style = TextStyle(
+                fontSize = 23.sp,
+                lineHeight = 30.sp,
+                fontFamily = FontFamily(Font(R.font.pretendard_medium)),
+                fontWeight = FontWeight(500),
+                color = Color(0xFF000000),
+            )
+        )
 
         Spacer(modifier = Modifier.weight(1f))
 

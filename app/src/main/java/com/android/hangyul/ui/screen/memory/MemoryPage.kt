@@ -44,8 +44,7 @@ fun MemoryPage(navController: NavController, viewModel: MemoryViewModel = viewMo
         memories.forEach { memory ->
             ListBtn(icon = R.drawable.ic_nav_memory, title = memory.title, date = memory.date,
                 modifier = Modifier.clickable {
-                    navController.currentBackStackEntry?.savedStateHandle?.set("selectedMemory", memory)
-                    navController.navigate("memoryDetail")
+                    navController.navigate("memoryDetail/${memory.id}")
                 })
             Spacer(modifier = Modifier.height(15.dp))
         }

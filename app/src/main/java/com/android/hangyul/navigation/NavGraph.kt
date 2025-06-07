@@ -1,5 +1,6 @@
 package com.android.hangyul.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalWithComputedDefaultOf
 import androidx.compose.runtime.remember
@@ -33,7 +34,7 @@ private object Routes {
     const val ALARM_LIST = "alarmList"
     const val ALARM_ADD = "alarmAdd"
 
-    const val MEMORY_DETAIL = "memoryDetail"
+    const val MEMORY_DETAIL = "memoryDetail/{memoryId}"
     const val MEMORY_ADD = "memoryAdd"
 
     const val MAP_LIST = "mapList"
@@ -66,8 +67,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
                 navController.popBackStack()
             }
         }
-        composable(Routes.MEMORY_DETAIL) {
-            MemoryDetailPage(navController)
+        composable("memoryDetail/{memoryId}"){ backStackEntry ->
+            val memoryId = backStackEntry.arguments?.getString("memoryId")
+            MemoryDetailPage(navController, memoryId, sharedMemoryViewModel)
         }
 
         composable(Routes.MAP_LIST) {
