@@ -27,63 +27,25 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.style.TextAlign
+import com.android.hangyul.viewmodel.Memory
 
 
 @Composable
 fun MemoryDetailPage(navController: NavController) {
+    val memory = navController.previousBackStackEntry
+        ?.savedStateHandle
+        ?.get<Memory>("selectedMemory")
+
+
     Column (
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 25.dp, vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(
-            text = "아들내미 집 놀러간 날",
-            style = TextStyle(
-                fontSize = 23.sp,
-                lineHeight = 30.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-            )
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        Text(
-            text = "2025.05.27.",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = 10.dp),
-            textAlign = TextAlign.End,
-            style = TextStyle(
-                fontSize = 14.sp,
-                lineHeight = 30.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-                fontWeight = FontWeight(600),
-                color = Color(0xFF634F96),
-            )
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Box(
-            modifier = Modifier
-                .width(250.dp)
-                .height(180.dp)
-                .background(color = Color.Gray)
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "잘생긴 우리아들...~~\n무럭무럭 크려무나",
-            style = TextStyle(
-                fontSize = 23.sp,
-                lineHeight = 30.sp,
-                fontFamily = FontFamily(Font(R.font.pretendard_medium)),
-                fontWeight = FontWeight(500),
-                color = Color(0xFF000000),
-            )
-        )
+        Text(text = memory?.title ?: "제목 없음")
+        Text(text = memory?.date ?: "날짜 없음")
+        Text(text = memory?.content ?: "내용 없음")
 
         Spacer(modifier = Modifier.weight(1f))
 

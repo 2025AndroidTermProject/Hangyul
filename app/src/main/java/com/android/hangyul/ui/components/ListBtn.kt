@@ -31,7 +31,9 @@ import com.android.hangyul.ui.theme.Purple80
 
 
 @Composable
-fun ListBtn(icon:Int, text:String, description:String,
+fun ListBtn(icon: Int,
+            title: String,
+            date: String,
             modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
@@ -56,7 +58,7 @@ fun ListBtn(icon:Int, text:String, description:String,
             Column {
                 Row {
                     Text(
-                        text = text,
+                        text = title,
                         style = TextStyle(
                             fontSize = 20.sp,
                             lineHeight = 30.sp,
@@ -73,7 +75,7 @@ fun ListBtn(icon:Int, text:String, description:String,
                 }
 
                 Text(
-                    text = description,
+                    text = date,
                     style = TextStyle(
                         fontSize = 14.sp,
                         lineHeight = 15.sp,

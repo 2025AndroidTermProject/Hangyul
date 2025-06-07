@@ -4,18 +4,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+data class Memory(
+    val title: String,
+    val date: String,
+    val content: String,
+)
 
 class MemoryViewModel : ViewModel() {
-    var title by mutableStateOf("")
-    var date by mutableStateOf("")
-    var content by mutableStateOf("")
-    var images by mutableStateOf(listOf<String>())
+    private val _memories = MutableStateFlow<List<Memory>>(emptyList())
+    val memories = _memories.asStateFlow()
 
-    fun saveMemory() {
-        println("저장 완료: $title / $date / $content / $images")
-    }
-
-    fun addImage(path: String) {
-        images = images + path
+    fun addMemory(memory: Memory) {
+        _memories.value = _memories.value + memory
     }
 }

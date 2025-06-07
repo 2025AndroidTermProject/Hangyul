@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddBtn
@@ -25,12 +28,11 @@ import com.android.hangyul.ui.components.NaviBar
 import com.android.hangyul.ui.components.TopBar
 import com.android.hangyul.ui.screen.routine.location
 import com.android.hangyul.ui.screen.routine.medicine
+import com.android.hangyul.viewmodel.MemoryViewModel
 
 @Composable
-fun MemoryPage(navController: NavController) {
-    val icon = R.drawable.ic_nav_memory
-    val title = "아들내미 집 놀러간 날"
-    val date = "2025.05.27."
+fun MemoryPage(navController: NavController, viewModel: MemoryViewModel = viewModel()) {
+    val memories by viewModel.memories.collectAsState()
 
     Column  (
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,10 +41,15 @@ fun MemoryPage(navController: NavController) {
             .padding(top = 20.dp),
 
         ){
-        ListBtn(icon, title, date, modifier = Modifier.clickable {
-            navController.navigate("memoryDetail")
-        })
-        Spacer(modifier = Modifier.height(15.dp))
+        memories.forEach { memory ->
+            ListBtn(icon = R.drawable.ic_nav_memory, title = memory.title, date = memory.date,
+                modifier = Modifier.clickable {
+                    navController.currentBackStackEntry?.savedStateHandle?.set("selectedMemory", memory)
+                    navController.navigate("memoryDetail")
+                })
+            Spacer(modifier = Modifier.height(15.dp))
+        }
+
         Spacer(modifier = Modifier.weight(1f))
 
         Row(
