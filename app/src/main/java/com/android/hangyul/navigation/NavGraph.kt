@@ -13,6 +13,8 @@ import com.android.hangyul.ui.screen.braintraining.BrainTrainingInitialPage
 import com.android.hangyul.ui.screen.braintraining.BrainTrainingAnswerPage
 import com.android.hangyul.ui.screen.braintraining.BrainTrainingResultPage
 import com.android.hangyul.ui.screen.diary.DiaryPage
+import com.android.hangyul.ui.screen.diary.DiaryHistoryPage
+import com.android.hangyul.ui.screen.diary.DiaryDetailPage
 import com.android.hangyul.ui.screen.main.MainPage
 import com.android.hangyul.ui.screen.memory.MemoryAddPage
 import com.android.hangyul.ui.screen.memory.MemoryDetailPage
@@ -25,6 +27,9 @@ import com.android.hangyul.ui.screen.routine.RoutinePage
 import com.android.hangyul.viewmodel.AlarmViewModel
 import com.android.hangyul.viewmodel.MapViewModel
 import com.android.hangyul.viewmodel.MemoryViewModel
+import com.android.hangyul.ui.screen.diary.DiaryEntry
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 private object Routes {
     const val MAIN = "main"
@@ -33,6 +38,8 @@ private object Routes {
     const val BRAIN_RESULT = "brain_result"
     const val ROUTINE = "routine"
     const val DIARY = "diary"
+    const val DIARY_DETAIL = "diaryDetail/{date}"
+    const val DIARY_HISTORY = "diaryHistory"
     const val MEMORY = "memory"
 
     const val ALARM_LIST = "alarmList"
@@ -49,6 +56,33 @@ private object Routes {
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     val sharedMapViewModel: MapViewModel = viewModel()
     val sharedMemoryViewModel: MemoryViewModel = viewModel()
+
+    // 오늘 날짜 더미 데이터 생성
+    val today = LocalDate.now()
+    val dateForRoute = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+    val dummyEntries = listOf(
+        DiaryEntry(
+            date = dateForRoute,
+            emoji = "😊",
+            emotion = "행복",
+            content = "오늘은 정말 즐거운 하루였다!" ,
+            comment = "내일도 행복하세요"
+        ),
+        DiaryEntry(
+            date = "2025-06-05",
+            emoji = "💖",
+            emotion = "사랑",
+            content = "아들아 사랑한다.",
+            comment = "사랑이 넘치는 하루를 보내셨군요"
+        ),
+        DiaryEntry(
+            date = "2025-06-04",
+            emoji = "😠",
+            emotion = "분노",
+            content = "마누라랑 싸웠다.. 하ㅏ.. 내일 화해해야지.",
+            comment = "내일은 꼭 화해하세요!"
+        )
+    )
 
     NavHost(navController = navController, startDestination = Routes.MAIN, modifier = modifier) {
         composable(Routes.MAIN) { MainPage(navController) }
@@ -91,7 +125,30 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             }
         }
         composable(Routes.ROUTINE) { RoutinePage(navController) }
-        composable(Routes.DIARY) { DiaryPage(navController) }
+        composable(Routes.DIARY) {
+            DiaryPage(navController, entries = dummyEntries, fileName = "오늘의일기.mp3")
+        }
+        composable(Routes.DIARY_HISTORY) {
+            DiaryHistoryPage(entries = dummyEntries, onEntryClick = { entry ->
+                navController.navigate("diaryDetail/${entry.date}")
+            })
+        }
+        composable(
+            route = "diaryDetail/{date}",
+        ) { backStackEntry ->
+            val date = backStackEntry.arguments?.getString("date") ?: ""
+            val entry = dummyEntries.find { it.date == date }
+            if (entry != null) {
+                DiaryDetailPage(
+                    date = entry.date,
+                    convertedText = entry.content,
+                    emotion = "${entry.emoji} ${entry.emotion}",
+                    emotionComment = "${entry.comment}"
+                )
+            } else {
+                androidx.compose.material3.Text("해당 날짜의 일기가 없습니다.")
+            }
+        }
 
         composable(Routes.ALARM_LIST) { AlarmListPage(navController) }
         composable(Routes.ALARM_ADD) {
