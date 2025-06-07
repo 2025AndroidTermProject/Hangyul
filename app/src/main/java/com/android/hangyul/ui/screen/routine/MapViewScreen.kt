@@ -15,7 +15,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 
 
 @Composable
-fun MapViewScreen() {
+fun MapViewScreen(markerPosition: LatLng?) {
     val context = LocalContext.current
     val busanLatLng = LatLng(35.1796, 129.0756)
 
@@ -30,18 +30,16 @@ fun MapViewScreen() {
                 .aspectRatio(1f),  // 비율 조정
             cameraPositionState = cameraPositionState
         ) {
-            Marker(
-                state = MarkerState(position = busanLatLng),
-                title = "부산",
-                snippet = "대한민국"
-            )
+            markerPosition?.let{
+                Marker(
+                    state = MarkerState(position = busanLatLng),
+                    title = "부산",
+                    snippet = "대한민국"
+                )
+            }
+
         }
     }
 
 }
 
-@Preview
-@Composable
-fun MapViewScreenPreview() {
-    MapViewScreen()
-}

@@ -58,6 +58,6 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
         composable(Routes.MEMORY_ADD) { MemoryAddPage(viewModel = viewModel()) {navController.popBackStack() }}
 
         composable(Routes.MAP_LIST) { MapListPage(navController) }
-        composable(Routes.MAP_ADD) { MapMarkerAddPage()}
+        composable(Routes.MAP_ADD) { MapMarkerAddPage(navController, viewModel = viewModel())}
     }
 }

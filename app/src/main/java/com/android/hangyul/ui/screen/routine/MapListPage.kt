@@ -15,12 +15,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.android.hangyul.ui.components.AddBtn
+import com.android.hangyul.viewmodel.MapViewModel
 
 @Composable
-fun MapListPage(navController: NavController) {
+fun MapListPage(navController: NavController, viewModel: MapViewModel = viewModel()) {
+
+    val markerPosition = viewModel.selectedLocation
 
     Column (
         modifier = Modifier
@@ -29,7 +33,7 @@ fun MapListPage(navController: NavController) {
         verticalArrangement = Arrangement.SpaceBetween
 
     ){
-        MapViewScreen()
+        MapViewScreen(markerPosition)
 
         Spacer(modifier = Modifier.weight(1f))
 

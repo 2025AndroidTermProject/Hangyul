@@ -47,6 +47,8 @@ dependencies {
     implementation ("com.google.maps.android:maps-compose:2.11.4")  // 지도 api
     implementation ("com.google.android.gms:play-services-maps:18.1.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
+    implementation ("com.google.android.libraries.places:places:3.3.0") // 자동완성
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
