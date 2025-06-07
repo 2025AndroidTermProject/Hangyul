@@ -53,7 +53,9 @@ fun RoutinePage(navController: NavController) {
             navController.navigate("alarmList")
         })
         Spacer(modifier = Modifier.height(15.dp))
-        ListBtn(location.icon, location.text, location.description)
+        ListBtn(location.icon, location.text, location.description, modifier = Modifier.clickable {
+            navController.navigate("mapList")
+        })
     }
 }
 

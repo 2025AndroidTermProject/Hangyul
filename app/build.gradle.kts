@@ -44,6 +44,9 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.0-beta01") // 또는 최신 버전
     implementation("androidx.compose.material3:material3:1.2.0-alpha05") // 시간 피커 포함
 
+    implementation ("com.google.maps.android:maps-compose:2.11.4")  // 지도 api
+    implementation ("com.google.android.gms:play-services-maps:18.1.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
