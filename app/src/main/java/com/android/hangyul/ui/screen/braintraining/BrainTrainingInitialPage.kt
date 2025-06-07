@@ -46,7 +46,7 @@ fun BrainTrainingInitialPage(navController: NavController) {
     }
 
     // 타이머: 30초
-    var remainingSeconds by remember { mutableStateOf(30) }
+    var remainingSeconds by remember { mutableStateOf(5) }
 
     // 1초마다 감소
     LaunchedEffect(Unit) {
@@ -55,7 +55,11 @@ fun BrainTrainingInitialPage(navController: NavController) {
             remainingSeconds--
         }
         // 시간 종료 시 이동
-        navController.navigate("brain_answer")
+        val numbersStr = numbers.joinToString(",")
+        println("Initial numbers: $numbersStr") // 디버깅용 로그
+        navController.navigate("brain_answer?correctNumbers=$numbersStr") {
+            popUpTo("brainTraining") { inclusive = true }
+        }
     }
 
     Column(
@@ -112,7 +116,6 @@ fun BrainTrainingInitialPage(navController: NavController) {
                     )
                 }
             }
-            Spacer(Modifier.height(10.dp))
             // 아랫줄 2개
             Row(horizontalArrangement = Arrangement.spacedBy(30.dp)) {
                 for (i in 3 until 5) {
