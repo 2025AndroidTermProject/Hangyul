@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.android.hangyul.ui.screen.braintraining.BrainTrainingPage
+import com.android.hangyul.ui.screen.braintraining.BrainTrainingInitialPage
 import com.android.hangyul.ui.screen.diary.DiaryPage
 import com.android.hangyul.ui.screen.main.MainPage
 import com.android.hangyul.ui.screen.memory.MemoryAddPage
@@ -36,7 +36,7 @@ private object Routes {
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(navController = navController, startDestination = Routes.MAIN, modifier = modifier) {
         composable(Routes.MAIN) { MainPage(navController) }
-        composable(Routes.BRAIN_TRAINING) { BrainTrainingPage(navController) }
+        composable(Routes.BRAIN_TRAINING) { BrainTrainingInitialPage(navController) }
         composable(Routes.ROUTINE) { RoutinePage(navController) }
         composable(Routes.DIARY) { DiaryPage(navController) }
         composable(Routes.MEMORY) { MemoryPage(navController) }
