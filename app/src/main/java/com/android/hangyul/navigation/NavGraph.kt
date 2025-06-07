@@ -20,6 +20,7 @@ import com.android.hangyul.ui.screen.routine.MapListPage
 import com.android.hangyul.ui.screen.routine.MapMarkerAddPage
 import com.android.hangyul.ui.screen.routine.RoutinePage
 import com.android.hangyul.viewmodel.AlarmViewModel
+import com.android.hangyul.viewmodel.MapViewModel
 
 private object Routes {
     const val MAIN = "main"
@@ -40,6 +41,7 @@ private object Routes {
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+    val sharedMapViewModel: MapViewModel = viewModel()
     NavHost(navController = navController, startDestination = Routes.MAIN, modifier = modifier) {
         composable(Routes.MAIN) { MainPage(navController) }
         composable(Routes.BRAIN_TRAINING) { BrainTrainingPage(navController) }
@@ -57,7 +59,11 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
         composable(Routes.MEMORY_DETAIL) { MemoryDetailPage(navController)}
         composable(Routes.MEMORY_ADD) { MemoryAddPage(viewModel = viewModel()) {navController.popBackStack() }}
 
-        composable(Routes.MAP_LIST) { MapListPage(navController) }
-        composable(Routes.MAP_ADD) { MapMarkerAddPage(navController, viewModel = viewModel())}
+        composable(Routes.MAP_LIST) {
+            MapListPage(navController, sharedMapViewModel)
+        }
+        composable(Routes.MAP_ADD) {
+            MapMarkerAddPage(navController, sharedMapViewModel)
+        }
     }
 }
