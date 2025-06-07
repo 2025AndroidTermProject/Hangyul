@@ -46,7 +46,7 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = date,
-                    fontSize = 20.sp,
+                    fontSize = 27.sp,
                     fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
