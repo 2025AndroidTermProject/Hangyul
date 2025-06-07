@@ -15,10 +15,12 @@ import androidx.navigation.compose.rememberNavController
 import com.android.hangyul.ui.theme.HangyulTheme
 import com.android.hangyul.ui.components.NaviBar
 import com.android.hangyul.ui.components.TopBar
+import com.google.android.libraries.places.api.Places
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Places.initialize(applicationContext, "AIzaSyDz8UvMNJtUipKK2WRtKjB0IZqmTG1ih3M")
         enableEdgeToEdge()
         setContent {
             HangyulTheme {
