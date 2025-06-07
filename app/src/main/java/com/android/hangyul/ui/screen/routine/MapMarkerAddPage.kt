@@ -116,7 +116,7 @@ fun MapMarkerAddPage(navController: NavController, viewModel: MapViewModel) {
         Button(
             onClick = {
                 markerPosition?.let {
-                    viewModel.setLocation(it)
+                    viewModel.addLocation(it)
                     navController.navigate("mapList") {
                         popUpTo("mapAdd") { inclusive = true }
                     }
