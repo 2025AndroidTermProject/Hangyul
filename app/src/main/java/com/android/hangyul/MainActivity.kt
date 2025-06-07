@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     "memory" -> "추억 기록"
                     "alarmList" -> "일상 관리"
                     "alarmAdd" -> "일상 관리"
-                    "memoryDetail" -> "추억 기록"
+                    "memoryDetail/{memoryId}" -> "추억 기록"
                     "memoryAdd" -> "추억 기록"
                     "mapList" -> "일상 관리"
                     "mapAdd" -> "일상 관리"

@@ -1,5 +1,6 @@
 package com.android.hangyul.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalWithComputedDefaultOf
 import androidx.compose.runtime.remember
@@ -21,6 +22,7 @@ import com.android.hangyul.ui.screen.routine.MapMarkerAddPage
 import com.android.hangyul.ui.screen.routine.RoutinePage
 import com.android.hangyul.viewmodel.AlarmViewModel
 import com.android.hangyul.viewmodel.MapViewModel
+import com.android.hangyul.viewmodel.MemoryViewModel
 
 private object Routes {
     const val MAIN = "main"
@@ -32,7 +34,7 @@ private object Routes {
     const val ALARM_LIST = "alarmList"
     const val ALARM_ADD = "alarmAdd"
 
-    const val MEMORY_DETAIL = "memoryDetail"
+    const val MEMORY_DETAIL = "memoryDetail/{memoryId}"
     const val MEMORY_ADD = "memoryAdd"
 
     const val MAP_LIST = "mapList"
@@ -42,12 +44,13 @@ private object Routes {
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     val sharedMapViewModel: MapViewModel = viewModel()
+    val sharedMemoryViewModel: MemoryViewModel = viewModel()
+
     NavHost(navController = navController, startDestination = Routes.MAIN, modifier = modifier) {
         composable(Routes.MAIN) { MainPage(navController) }
         composable(Routes.BRAIN_TRAINING) { BrainTrainingPage(navController) }
         composable(Routes.ROUTINE) { RoutinePage(navController) }
         composable(Routes.DIARY) { DiaryPage(navController) }
-        composable(Routes.MEMORY) { MemoryPage(navController) }
 
         composable(Routes.ALARM_LIST) { AlarmListPage(navController) }
         composable(Routes.ALARM_ADD) {
@@ -56,8 +59,18 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             }
         }
 
-        composable(Routes.MEMORY_DETAIL) { MemoryDetailPage(navController)}
-        composable(Routes.MEMORY_ADD) { MemoryAddPage(viewModel = viewModel()) {navController.popBackStack() }}
+        composable(Routes.MEMORY) {
+            MemoryPage(navController, viewModel = sharedMemoryViewModel)
+        }
+        composable(Routes.MEMORY_ADD) {
+            MemoryAddPage(viewModel = sharedMemoryViewModel) {
+                navController.popBackStack()
+            }
+        }
+        composable("memoryDetail/{memoryId}"){ backStackEntry ->
+            val memoryId = backStackEntry.arguments?.getString("memoryId")
+            MemoryDetailPage(navController, memoryId, sharedMemoryViewModel)
+        }
 
         composable(Routes.MAP_LIST) {
             MapListPage(navController, sharedMapViewModel)
