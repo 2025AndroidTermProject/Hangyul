@@ -25,7 +25,6 @@ fun MainPage(navController: NavController) {
             .fillMaxSize()
             .background(Color(0xFFF5F5F5))
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -35,10 +34,8 @@ fun MainPage(navController: NavController) {
             Spacer(modifier = Modifier.height(10.dp))
 
             // 4개 버튼 그리드
-            FeatureButtonGrid()
+            FeatureButtonGrid(navController = navController)
         }
-
-
     }
 }
 
