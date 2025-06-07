@@ -18,6 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.hangyul.R
 import com.android.hangyul.ui.theme.HangyulTheme
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 data class FeatureButtonData(
     val imageRes: Int,
@@ -25,7 +27,7 @@ data class FeatureButtonData(
     val description: String
 )
 @Composable
-fun FeatureButtonGrid() {
+fun FeatureButtonGrid(navController: NavController) {
     val buttons = listOf(
         FeatureButtonData(R.drawable.ic_main_diary, "음성 일기", "하루를 기록해보세요."),
         FeatureButtonData(R.drawable.ic_main_routine, "일상 관리", "당신의 일상에 도움을"),
@@ -37,7 +39,6 @@ fun FeatureButtonGrid() {
         val buttonSize = (maxWidth - 16.dp * 3) / 2  // 여백 고려한 셀 너비
 
         LazyVerticalGrid(
-
             columns = GridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxWidth()
@@ -52,18 +53,24 @@ fun FeatureButtonGrid() {
                     buttonTitle = button.title,
                     buttonText = button.description,
                     buttonSize = buttonSize,
-                    onClick = {}
+                    onClick = {
+                        when (button.title) {
+                            "음성 일기" -> navController.navigate("diary")
+                            "일상 관리" -> navController.navigate("routine")
+                            "두뇌 훈련" -> navController.navigate("brainTraining")
+                            "추억 기록" -> navController.navigate("memory")
+                        }
+                    }
                 )
             }
         }
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun FeatureButtonGridPreview() {
     HangyulTheme {
-        FeatureButtonGrid()
+        FeatureButtonGrid(navController = rememberNavController())
     }
 }
