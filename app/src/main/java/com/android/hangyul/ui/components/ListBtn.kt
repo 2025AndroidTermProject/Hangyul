@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,43 +38,36 @@ fun ListBtn(icon: Int,
             modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .width(320.dp)
+            .fillMaxWidth(0.8f)
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(Purple80, Blue80)),
                 shape = RoundedCornerShape(size=20.dp))
             .padding(horizontal = 16.dp, vertical = 18.dp),
         contentAlignment = Alignment.Center
-
     ){
-        Row (
-            verticalAlignment = Alignment.CenterVertically
-
-        ){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Image(
-            painter = painterResource(id = icon),
-            contentDescription = "그림",
-        )
+                painter = painterResource(id = icon),
+                contentDescription = "그림",
+                modifier = Modifier.padding(start = 20.dp)
+            )
             Spacer(modifier = Modifier.width(20.dp))
-            Column {
-                Row {
-                    Text(
-                        text = title,
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            lineHeight = 30.sp,
-                            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                            color = Color.Black,
-                        )
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = title,
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        lineHeight = 30.sp,
+                        fontFamily = FontFamily(Font(R.font.pretendard_bold)),
+                        color = Color.Black,
                     )
-                    Spacer(modifier = Modifier.width(70.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_list_next),
-                        contentDescription = "이동 버튼",
-                        Modifier.size(30.dp)
-                    )
-                }
-
+                )
                 Text(
                     text = date,
                     style = TextStyle(
@@ -85,6 +79,12 @@ fun ListBtn(icon: Int,
                     )
                 )
             }
+            Spacer(modifier = Modifier.width(20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.ic_list_next),
+                contentDescription = "이동 버튼",
+                modifier = Modifier.size(30.dp)
+            )
         }
     }
 }
