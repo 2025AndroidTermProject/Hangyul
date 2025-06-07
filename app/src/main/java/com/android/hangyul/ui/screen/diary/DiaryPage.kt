@@ -37,6 +37,7 @@ fun DiaryPage(
 ) {
     val today = remember { LocalDate.now() }
     val formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일 (E)", Locale.KOREAN))
+    val dateForRoute = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     val recordingState = remember { mutableStateOf(RecordingState.Idle) }
     val duration = remember { mutableStateOf("00:00") }
 
@@ -71,7 +72,7 @@ fun DiaryPage(
                 fileName = fileName,
                 onClick = {
                     if (!fileName.isNullOrBlank()) {
-                        navController.navigate("detail/2025-05-27")
+                        navController.navigate("diaryDetail/$dateForRoute")
                     }
                 }
             )
@@ -80,9 +81,9 @@ fun DiaryPage(
 
             DiaryHistoryCard(
                 entries = entries,
-                onHeaderClick = { navController.navigate("history") },
+                onHeaderClick = { navController.navigate("diaryHistory") },
                 onEntryClick = { entry ->
-                    navController.navigate("detail/${entry.date}")
+                    navController.navigate("diaryDetail/${entry.date}")
                 }
             )
 
@@ -95,8 +96,8 @@ fun DiaryPage(
 @Composable
 fun DiaryPagePreview() {
     val dummyEntries = listOf(
-        DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!"),
-        DiaryEntry("5월 25일", "🥺", "슬픔", "오늘은 혼자있는 시간이 많았나봐요")
+        DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!","위로"),
+        DiaryEntry("5월 25일", "🥺", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","위로")
     )
 
     HangyulTheme {

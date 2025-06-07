@@ -69,11 +69,11 @@ fun DiaryHistoryPage(
 @Composable
 fun DiaryHistoryPagePreview() {
         val dummyEntries = listOf(
-            DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!"),
-            DiaryEntry("5월 25일", "💖", "사랑", "아드님과 좋은 시간을 보내셨나봐요."),
-            DiaryEntry("5월 24일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요"),
-            DiaryEntry("5월 23일", "💖", "설렘", "내일도 행복하길 바라요~"),
-            DiaryEntry("5월 22일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요")
+            DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!","위로 멘트"),
+            DiaryEntry("5월 25일", "💖", "사랑", "아드님과 좋은 시간을 보내셨나봐요.","위로 멘트"),
+            DiaryEntry("5월 24일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","위로 멘트"),
+            DiaryEntry("5월 23일", "💖", "설렘", "내일도 행복하길 바라요~","위로 멘트"),
+            DiaryEntry("5월 22일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","위로 멘트")
         )
         HangyulTheme {
             DiaryHistoryPage(entries = dummyEntries)
