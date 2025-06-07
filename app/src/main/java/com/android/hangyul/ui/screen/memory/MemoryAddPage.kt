@@ -17,20 +17,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.hangyul.R
-import com.android.hangyul.ui.components.AddInputField
 import com.android.hangyul.viewmodel.Memory
 import com.android.hangyul.viewmodel.MemoryViewModel
 
@@ -56,7 +51,7 @@ fun MemoryAddPage(viewModel: MemoryViewModel, onSave: ()->Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 25.dp, vertical = 20.dp),
+            .padding(55.dp),
     ) {
         Text(
             text = "추억을 기록하세요!",
@@ -100,8 +95,7 @@ fun MemoryAddPage(viewModel: MemoryViewModel, onSave: ()->Unit) {
                 onSave()
             },
             modifier = Modifier
-                .width(300.dp)
-                .padding(end = 25.dp, bottom = 25.dp),
+                .fillMaxWidth(),
         )
         {
             Text("저장")

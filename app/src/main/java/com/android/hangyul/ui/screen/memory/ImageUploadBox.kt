@@ -24,9 +24,8 @@ fun ImageUploadBox(
 ) {
     Column(
         modifier = Modifier
-            .width(300.dp)
+            .fillMaxWidth()
             .background(Color(0xFFF5F5F5), RoundedCornerShape(12.dp))
-            .padding(12.dp)
     ) {
         for (path in imagePaths) {
             Text(
