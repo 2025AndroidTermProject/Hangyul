@@ -47,10 +47,6 @@ fun AlarmAddPage(viewModel: AlarmViewModel, onSave: ()->Unit) {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            AddInputField(
-                text = viewModel.alarmName,
-                onTextChanged = { viewModel.alarmName = it },
-                placeholderText = "알람 이름")
             Spacer(modifier = Modifier.height(10.dp))
             AddInputField(
                 text = viewModel.medicineName,
@@ -75,6 +71,7 @@ fun AlarmAddPage(viewModel: AlarmViewModel, onSave: ()->Unit) {
         TimePicker { hour, minute ->
             viewModel.hour = hour
             viewModel.minute = minute
+            viewModel.addAlarm()
             onSave()
         }
 

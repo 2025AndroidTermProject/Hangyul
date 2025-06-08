@@ -12,7 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -22,9 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddBtn
+import com.android.hangyul.viewmodel.AlarmItem
+import com.android.hangyul.viewmodel.AlarmViewModel
 
 @Composable
-fun AlarmListPage(navController: NavController) {
+fun AlarmListPage(navController: NavController, viewModel: AlarmViewModel) {
+    val alarms by viewModel.alarms.collectAsState()
+
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -40,11 +51,19 @@ fun AlarmListPage(navController: NavController) {
             )
         )
 
-        Spacer(modifier = Modifier.height(22.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-        AlarmList(13,30,"오메가3")
-        Spacer(modifier = Modifier.height(10.dp))
-        AlarmList(18, 30, "비타민")
+        alarms.forEach { alarm ->
+            AlarmList(
+                navController = navController,
+                hour = alarm.hour,
+                min = alarm.minute,
+                text = alarm.medicineName,
+                onDelete = { viewModel.deleteAlarm(alarm.id) }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -56,6 +75,7 @@ fun AlarmListPage(navController: NavController) {
         ) {
             AddBtn("알람 등록", modifier = Modifier.clickable { navController.navigate("alarmAdd") })
         }
+
     }
 
 }
