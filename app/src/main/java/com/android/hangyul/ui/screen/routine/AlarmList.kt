@@ -2,6 +2,7 @@ package com.android.hangyul.ui.screen.routine
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,11 +22,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.android.hangyul.R
 import com.android.hangyul.ui.theme.Purple80
+import androidx.compose.runtime.*
+
 
 @Composable
-fun AlarmList(hour: Int, min: Int, text: String) {
+fun AlarmList(hour:Int, min: Int, text: String, onDelete : () -> Unit) {
     Row (
         modifier = Modifier
             .fillMaxWidth()
@@ -45,7 +49,7 @@ fun AlarmList(hour: Int, min: Int, text: String) {
 
         Column {
             Text(
-                text = "${hour}:${min}",
+                text = String.format("%02d:%02d", hour, min),
                 style = TextStyle(
                     fontSize = 35.sp,
                     lineHeight = 24.sp,
@@ -72,13 +76,10 @@ fun AlarmList(hour: Int, min: Int, text: String) {
             modifier = Modifier
                 .padding(end = 30.dp)
                 .size(40.dp)
+                .clickable {
+                    onDelete()
+                }
 
         )
     }
-}
-
-@Preview
-@Composable
-fun AlarmListPreview() {
-    AlarmList(13,30,"오메가3")
 }

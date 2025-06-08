@@ -54,6 +54,7 @@ private object Routes {
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     val sharedMapViewModel: MapViewModel = viewModel()
     val sharedMemoryViewModel: MemoryViewModel = viewModel()
+    val alarmViewModel : AlarmViewModel = viewModel()
 
     // 오늘 날짜 더미 데이터 생성
     val today = LocalDate.now()
@@ -148,9 +149,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             }
         }
 
-        composable(Routes.ALARM_LIST) { AlarmListPage(navController) }
+        composable(Routes.ALARM_LIST) { AlarmListPage(navController, viewModel = alarmViewModel) }
         composable(Routes.ALARM_ADD) {
-            AlarmAddPage(viewModel = viewModel()) {
+            AlarmAddPage(viewModel = alarmViewModel) {
                 navController.popBackStack()
             }
         }
