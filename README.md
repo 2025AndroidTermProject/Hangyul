@@ -22,10 +22,10 @@
 | --- | --- |
 | **프론트엔드** | kotlin 활용하여 jetpack compose로 개발 |
 | **백엔드** | Firebase Realtime DB or Firestore |
-| **API** | Google Speech-to-Text, Naver Map API |
+| **API** | Google Speech-to-Text, Google Map API |
 | **ML** | beomi/KcELECTRA → TFLite 변환 → 감정 분석 |
-| **Jetpack Libraray** | ViewModel, LiveData, Navigation, Room 등 |
-| **외부 연동** | 알람 앱, 카메라, (지도) 등 |
+| **Jetpack Libraray** | ViewModel, Jetpack Compose, Navigation 등 |
+| **외부 앱 연동** | 알람 앱, 갤러리 |
 ## 👀기대효과
 - **기억 자극 활동**은 치매의 진행을 더디게 만들 수 있음
 - **일상 기록과 회상 활동**은 기억 유지, 자기표현 능력 및 정서 안정에 도움을 줌
