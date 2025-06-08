@@ -30,18 +30,16 @@ class MainActivity : ComponentActivity() {
                     .currentBackStackEntryAsState().value
                     ?.destination?.route
 
-                val topBarTitle = when (currentRoute) {
-                    "main" -> "한결이"
-                    "diary" -> "음성 일기"
-                    "routine" -> "일상 관리"
-                    "brainTraining" -> "두뇌 훈련"
-                    "memory" -> "추억 기록"
-                    "alarmList" -> "일상 관리"
-                    "alarmAdd" -> "일상 관리"
-                    "memoryDetail/{memoryId}" -> "추억 기록"
-                    "memoryAdd" -> "추억 기록"
-                    "mapList" -> "일상 관리"
-                    "mapAdd" -> "일상 관리"
+                val topBarTitle = when {
+                    currentRoute == "main" -> "한결이"
+                    currentRoute?.startsWith("diary") == true -> "음성 일기"
+                    currentRoute?.startsWith("routine") == true -> "일상 관리"
+                    currentRoute?.startsWith("brainTraining") == true -> "두뇌 훈련"
+                    currentRoute?.startsWith("brain_answer") == true -> "두뇌 훈련"
+                    currentRoute?.startsWith("brain_result") == true -> "두뇌 훈련"
+                    currentRoute?.startsWith("memory") == true -> "추억 기록"
+                    currentRoute?.startsWith("alarm") == true -> "일상 관리"
+                    currentRoute?.startsWith("map") == true -> "일상 관리"
                     else -> "한결이"
                 }
 
@@ -50,7 +48,7 @@ class MainActivity : ComponentActivity() {
                         if (currentRoute != "main") {
                             TopBar(topBarTitle)
                         }
-                             },
+                    },
                     bottomBar = {NaviBar(navController)})
                 { innerPadding ->
                     NavGraph(
