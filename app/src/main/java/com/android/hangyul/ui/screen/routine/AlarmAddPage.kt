@@ -22,9 +22,17 @@ import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddInputField
 import com.android.hangyul.viewmodel.AlarmViewModel
+import android.content.Intent
+import android.provider.AlarmClock
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+import com.google.android.datatransport.runtime.util.PriorityMapping.toInt
 
 @Composable
 fun AlarmAddPage(viewModel: AlarmViewModel, onSave: ()->Unit) {
+
+    val context = LocalContext.current
 
     Column (
         modifier = Modifier
@@ -68,10 +76,23 @@ fun AlarmAddPage(viewModel: AlarmViewModel, onSave: ()->Unit) {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        TimePicker { hour, minute ->
+        TimePicker { hour, minute->
+
             viewModel.hour = hour
             viewModel.minute = minute
+            val medicine = viewModel.medicineName
             viewModel.addAlarm()
+
+            Log.d("AlarmDebug", "알람 설정 전: hour=$hour, minute=$minute")
+
+
+            val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
+                putExtra(AlarmClock.EXTRA_HOUR, hour)
+                putExtra(AlarmClock.EXTRA_MINUTES, minute)
+                putExtra(AlarmClock.EXTRA_MESSAGE, medicine.ifBlank { "약 복용 시간" })
+            }
+            context.startActivity(intent)
+
             onSave()
         }
 

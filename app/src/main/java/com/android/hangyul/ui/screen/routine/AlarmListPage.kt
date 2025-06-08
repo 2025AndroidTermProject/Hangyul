@@ -55,7 +55,6 @@ fun AlarmListPage(navController: NavController, viewModel: AlarmViewModel) {
 
         alarms.forEach { alarm ->
             AlarmList(
-                navController = navController,
                 hour = alarm.hour,
                 min = alarm.minute,
                 text = alarm.medicineName,
