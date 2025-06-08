@@ -28,6 +28,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField ("String", "MAPS_API_KEY", "\"${localProperties["MAPS_API_KEY"]}\"")
+        buildConfigField ("String", "SPEECH_TO_TEXT_API_KEY", "\"${localProperties["SPEECH_TO_TEXT_API_KEY"]}\"")
     }
 
     buildTypes {
@@ -79,4 +80,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.google.code.gson:gson:2.10.1") // JSON 파싱을 위해 Gson 추가
 }

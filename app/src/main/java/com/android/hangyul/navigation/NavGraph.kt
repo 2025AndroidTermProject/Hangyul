@@ -134,14 +134,15 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             })
         }
         composable(
-            route = "diaryDetail/{date}",
+            route = "diaryDetail/{date}?convertedText={convertedText}",
         ) { backStackEntry ->
             val date = backStackEntry.arguments?.getString("date") ?: ""
+            val convertedText = backStackEntry.arguments?.getString("convertedText") ?: ""
             val entry = dummyEntries.find { it.date == date }
             if (entry != null) {
                 DiaryDetailPage(
                     date = entry.date,
-                    convertedText = entry.content,
+                    convertedText = convertedText,
                     emotion = "${entry.emoji} ${entry.emotion}",
                     emotionComment = "${entry.comment}"
                 )
