@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "721393160040",
+    "project_id": "machaetae",
+    "storage_bucket": "machaetae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721393160040:android:594c9d05d991009567d0dd",
+        "android_client_info": {
+          "package_name": "com.android.hangyul"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnDoLudw6sm4gCAYNWEZHVsTqiMxq9FLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

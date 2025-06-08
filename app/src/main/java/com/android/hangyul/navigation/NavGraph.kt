@@ -38,14 +38,12 @@ private object Routes {
     const val BRAIN_RESULT = "brain_result"
     const val ROUTINE = "routine"
     const val DIARY = "diary"
-    const val DIARY_DETAIL = "diaryDetail/{date}"
     const val DIARY_HISTORY = "diaryHistory"
     const val MEMORY = "memory"
 
     const val ALARM_LIST = "alarmList"
     const val ALARM_ADD = "alarmAdd"
 
-    const val MEMORY_DETAIL = "memoryDetail/{memoryId}"
     const val MEMORY_ADD = "memoryAdd"
 
     const val MAP_LIST = "mapList"
@@ -56,6 +54,7 @@ private object Routes {
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     val sharedMapViewModel: MapViewModel = viewModel()
     val sharedMemoryViewModel: MemoryViewModel = viewModel()
+    val alarmViewModel : AlarmViewModel = viewModel()
 
     // 오늘 날짜 더미 데이터 생성
     val today = LocalDate.now()
@@ -151,9 +150,9 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
             }
         }
 
-        composable(Routes.ALARM_LIST) { AlarmListPage(navController) }
+        composable(Routes.ALARM_LIST) { AlarmListPage(navController, viewModel = alarmViewModel) }
         composable(Routes.ALARM_ADD) {
-            AlarmAddPage(viewModel = viewModel()) {
+            AlarmAddPage(viewModel = alarmViewModel) {
                 navController.popBackStack()
             }
         }

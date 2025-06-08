@@ -31,6 +31,10 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun MapListPage(navController: NavController, viewModel: MapViewModel = viewModel()) {
 
+    LaunchedEffect(Unit) {
+        viewModel.fetchLocations()
+    }
+
     val markerPositions by viewModel.selectedLocations.collectAsState()
 
     val cameraPositionState = rememberCameraPositionState {

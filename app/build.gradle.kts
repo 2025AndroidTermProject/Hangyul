@@ -12,6 +12,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    id("com.google.gms.google-services")
 }
 
 
@@ -27,8 +29,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
         buildConfigField ("String", "MAPS_API_KEY", "\"${localProperties["MAPS_API_KEY"]}\"")
         buildConfigField ("String", "SPEECH_TO_TEXT_API_KEY", "\"${localProperties["SPEECH_TO_TEXT_API_KEY"]}\"")
+        resValue ("string", "google_maps_key", "\"${localProperties["MAPS_API_KEY"]}\"")
+
     }
 
     buildTypes {
@@ -54,6 +59,11 @@ android {
 }
 
 dependencies {
+    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material3:material3:1.2.0-beta01") // 또는 최신 버전
