@@ -36,6 +36,10 @@ import com.android.hangyul.viewmodel.AlarmViewModel
 fun AlarmListPage(navController: NavController, viewModel: AlarmViewModel) {
     val alarms by viewModel.alarms.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.fetchAlarms()
+    }
+
     Column (
         modifier = Modifier
             .fillMaxSize()

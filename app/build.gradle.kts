@@ -29,7 +29,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField ("String", "MAPS_API_KEY", "\"${localProperties["MAPS_API_KEY"]}\"")
+        resValue ("string", "google_maps_key", "\"${localProperties["MAPS_API_KEY"]}\"")
     }
 
     buildTypes {
@@ -57,6 +57,8 @@ android {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
 
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
