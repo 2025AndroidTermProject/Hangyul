@@ -29,7 +29,8 @@ import com.android.hangyul.ui.theme.HangyulTheme
 
 @Composable
 fun ConvertedDiaryCard(
-    fileName: String?, // null 또는 ""이면 파일 없음
+    hasTodayEntry: Boolean, // 오늘 일기가 작성되었는지 여부
+    formattedDate: String, // 오늘 날짜 텍스트
     modifier: Modifier = Modifier,
     onClick: () -> Unit // 클릭 이벤트 추가
 ) {
@@ -59,7 +60,7 @@ fun ConvertedDiaryCard(
 
         Spacer(modifier = Modifier.height(13.dp))
 
-        if (fileName.isNullOrBlank()) {
+        if (!hasTodayEntry) {
             Text(
                 text = "아직 작성된 오늘의 일기가 없어요",
                 modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -77,7 +78,7 @@ fun ConvertedDiaryCard(
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 Text(
-                    text = fileName,
+                    text = formattedDate,
                     style = TextStyle(
                         fontSize = 15.sp,
                         lineHeight = 30.sp,
@@ -106,9 +107,9 @@ fun ConvertedDiaryCard(
 fun ConvertedDiaryCardPreview(){
     HangyulTheme {
         Column(modifier = Modifier.padding(16.dp)) {
-            ConvertedDiaryCard(fileName = null, onClick = { println("Empty 클릭") })
+            ConvertedDiaryCard(hasTodayEntry = false, formattedDate = "", onClick = { println("Empty 클릭") })
             Spacer(modifier = Modifier.height(16.dp))
-            ConvertedDiaryCard(fileName = "25_06_04.mp3", onClick = { println("오늘 일기 보기로 이동") })
+            ConvertedDiaryCard(hasTodayEntry = true, formattedDate = "2025년 6월 9일", onClick = { println("오늘 일기 보기로 이동") })
         }
     }
 }

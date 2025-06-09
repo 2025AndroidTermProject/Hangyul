@@ -28,12 +28,25 @@ import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import com.android.hangyul.ui.components.TopBar
 import com.android.hangyul.ui.theme.HangyulTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.android.hangyul.viewmodel.DiaryViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.android.hangyul.data.DiaryEntry as DataDiaryEntry
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import java.text.SimpleDateFormat
+import java.util.Locale
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun DiaryHistoryPage(
-    entries: List<DiaryEntry>,
-    onEntryClick: (DiaryEntry) -> Unit = {}
+    navController: NavController,
+    viewModel: DiaryViewModel = viewModel()
 ) {
+    val entries by viewModel.allEntries.collectAsState(initial = emptyList())
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -57,25 +70,29 @@ fun DiaryHistoryPage(
                     .padding(20.dp)
             ) {
                 entries.forEach { entry ->
-                    MiniDiaryCard(entry = entry, onClick = { onEntryClick(entry) })
+                    MiniDiaryCard(
+                        entry = entry,
+                        onClick = { navController.navigate("diaryDetail/${entry.id}") }
+                    )
                     Spacer(modifier = Modifier.height(12.dp))
-            }
-            Spacer(modifier = Modifier.height(20.dp))
+                }
+                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }
 }
+
 @Preview
 @Composable
 fun DiaryHistoryPagePreview() {
-        val dummyEntries = listOf(
-            DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!","위로 멘트"),
-            DiaryEntry("5월 25일", "💖", "사랑", "아드님과 좋은 시간을 보내셨나봐요.","위로 멘트"),
-            DiaryEntry("5월 24일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","위로 멘트"),
-            DiaryEntry("5월 23일", "💖", "설렘", "내일도 행복하길 바라요~","위로 멘트"),
-            DiaryEntry("5월 22일", "😢", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","위로 멘트")
-        )
-        HangyulTheme {
-            DiaryHistoryPage(entries = dummyEntries)
-        }
+    val dummyEntries = listOf(
+        DataDiaryEntry(date = java.util.Date(), content = "오늘은 기분이 좋았어요!", emotion = "행복", comfortMessage = "위로 멘트"),
+        DataDiaryEntry(date = java.util.Date(), content = "아드님과 좋은 시간을 보내셨나봐요.", emotion = "사랑", comfortMessage = "위로 멘트"),
+        DataDiaryEntry(date = java.util.Date(), content = "오늘은 혼자있는 시간이 많았나봐요", emotion = "슬픔", comfortMessage = "위로 멘트"),
+        DataDiaryEntry(date = java.util.Date(), content = "내일도 행복하길 바라요~", emotion = "설렘", comfortMessage = "위로 멘트"),
+        DataDiaryEntry(date = java.util.Date(), content = "오늘은 혼자있는 시간이 많았나봐요", emotion = "슬픔", comfortMessage = "위로 멘트")
+    )
+    HangyulTheme {
+        DiaryHistoryPage(navController = rememberNavController())
     }
+}

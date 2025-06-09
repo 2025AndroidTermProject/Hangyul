@@ -23,17 +23,35 @@ import com.android.hangyul.R
 import com.android.hangyul.ui.components.TopBar
 import com.android.hangyul.ui.theme.HangyulTheme
 import com.android.hangyul.ui.theme.Purple80
+
+private fun getEmotionEmoji(emotion: String): String {
+    return when (emotion.lowercase()) {
+        "기쁨", "행복" -> "😊"
+        "슬픔" -> "😢"
+        "분노" -> "😠"
+        "불안" -> "😰"
+        "중립" -> "😐"
+        "놀람" -> "😲"
+        "혐오" -> "🤢"
+        else -> "😊"
+    }
+}
+
 @Composable
-fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotionComment: String) {
-    Box(modifier = Modifier.fillMaxSize()) {
+fun DiaryDetailPage(
+    date: String,
+    convertedText: String,
+    emotion: String,
+    emotionComment: String,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .background(Color(0xFFF1F0FF))
                 .fillMaxSize()
                 .padding(horizontal = 20.dp, vertical = 16.dp)
-
         ) {
-
             // 날짜 + 말풍선 아이콘
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
@@ -41,7 +59,6 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                     contentDescription = "image description",
                     contentScale = ContentScale.FillBounds,
                     modifier = Modifier.height(60.dp).aspectRatio(1.15f)
-
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
@@ -107,7 +124,6 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-
                     Text(
                         text = "한결이 감정 분석 결과",
                         style = TextStyle(
@@ -115,10 +131,10 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                             lineHeight = 30.sp,
                             fontFamily = FontFamily(Font(R.font.pretendard_bold)),
                             fontWeight = FontWeight(700),
-                            color = Color(0xFF000000),
-
-                            )
+                            color = Color(0xFF000000)
+                        )
                     )
+                    
                     Spacer(modifier = Modifier.height(12.dp))
                     Box(
                         modifier = Modifier
@@ -126,7 +142,7 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
                             .padding(horizontal = 24.dp, vertical = 8.dp)
                     ) {
                         Text(
-                            text = emotion,
+                            text = "${getEmotionEmoji(emotion)} $emotion",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold
                         )
@@ -143,6 +159,7 @@ fun DiaryDetailPage(date: String, convertedText: String, emotion: String, emotio
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DiaryDetailPagePreview() {
@@ -154,7 +171,7 @@ fun DiaryDetailPagePreview() {
                 울 아들램이 사줘서 더 맛있다. 울 아들 고마워~.
                 너무 좋은 시간이었다.
             """.trimIndent(),
-            emotion = "😊 행복",
+            emotion = "행복",
             emotionComment = "오늘은 기분이 좋았어요!\n내일도 행복한 날일거예요!"
         )
     }
