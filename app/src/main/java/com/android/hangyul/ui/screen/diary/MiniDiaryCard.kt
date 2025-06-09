@@ -26,11 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import com.android.hangyul.ui.theme.HangyulTheme
+import com.android.hangyul.data.DiaryEntry as DataDiaryEntry
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.Date
 
 
 @Composable
 fun MiniDiaryCard(
-    entry: DiaryEntry,
+    entry: DataDiaryEntry,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -53,7 +57,7 @@ fun MiniDiaryCard(
                     Text(text = "🎙️", fontSize = 14.sp)
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = entry.date,
+                        text = SimpleDateFormat("M월 d일", Locale.KOREAN).format(entry.date),
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 30.sp,
@@ -68,7 +72,7 @@ fun MiniDiaryCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Row {
-                Text(text = entry.emoji, fontSize = 18.sp)
+                Text(text = getEmojiForEmotion(entry.emotion), fontSize = 18.sp)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     modifier = Modifier.align(Alignment.CenterVertically),
@@ -90,13 +94,25 @@ fun MiniDiaryCard(
 fun SimpleDiaryCardPreview() {
     HangyulTheme {
         MiniDiaryCard(
-            entry = DiaryEntry(
-                date = "5월 27일",
-                emoji = "😊",
+            entry = DataDiaryEntry(
+                date = Date(), // Use current date for preview
                 emotion = "행복",
                 content = "오늘은 기분이 좋았어요!",
-                comment = "위로 멘트"
+                comfortMessage = "위로 멘트"
             )
         )
+    }
+}
+
+private fun getEmojiForEmotion(emotion: String): String {
+    return when (emotion) {
+        "기쁨" -> "😊"
+        "슬픔" -> "😢"
+        "분노" -> "😠"
+        "불안" -> "😰"
+        "중립" -> "😐"
+        "놀람" -> "😲"
+        "혐오" -> "🤢"
+        else -> "😐"
     }
 }

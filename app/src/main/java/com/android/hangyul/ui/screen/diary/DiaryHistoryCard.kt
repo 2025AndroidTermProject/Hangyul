@@ -27,20 +27,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import com.android.hangyul.ui.theme.HangyulTheme
+import com.android.hangyul.data.DiaryEntry as DataDiaryEntry // Import Firebase's DiaryEntry
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.Date
 
-data class DiaryEntry(
-    val date: String,
-    val emoji: String,
-    val emotion: String,
-    val content: String,
-    val comment : String
-)
 @Composable
 fun DiaryHistoryCard(
-    entries: List<DiaryEntry>,
+    entries: List<DataDiaryEntry>,
     modifier: Modifier = Modifier,
     onHeaderClick: () ->Unit = {}, // 헤더(제목) 클릭 시 호출
-    onEntryClick: (DiaryEntry) -> Unit = {} // 엔트리(기록 카드) 클릭 시 호출
+    onEntryClick: (DataDiaryEntry) -> Unit = {} // 엔트리(기록 카드) 클릭 시 호출
 ) {
     Column(
         modifier = modifier
@@ -73,14 +70,15 @@ fun DiaryHistoryCard(
                 modifier = Modifier.padding(bottom = 12.dp)
             )
         }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 @Preview(showBackground = true)
 @Composable
 fun DiaryHistoryCardPreview() {
     val dummyEntries = listOf(
-        DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!",""),
-        DiaryEntry("5월 25일", "🥺", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","")
+        DataDiaryEntry(date = java.util.Date(), content = "오늘은 기분이 좋았어요!", emotion = "행복", comfortMessage = ""),
+        DataDiaryEntry(date = java.util.Date(), content = "오늘은 혼자있는 시간이 많았나봐요", emotion = "슬픔", comfortMessage = "")
     )
 
     HangyulTheme {
@@ -90,7 +88,7 @@ fun DiaryHistoryCardPreview() {
                 println("헤더 클릭됨 - history 페이지 이동")
             },
             onEntryClick = { clicked ->
-                println("클릭된 일기: ${clicked.date}")
+                println("클릭된 일기: ${clicked.id}") // Use ID for logging consistency
             }
         )
     }
