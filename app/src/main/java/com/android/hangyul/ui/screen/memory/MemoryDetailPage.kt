@@ -38,6 +38,10 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.android.hangyul.viewmodel.Memory
 import com.android.hangyul.viewmodel.MemoryViewModel
+import androidx.compose.ui.platform.LocalContext
+import coil.request.ImageRequest
+import java.io.File
+import android.net.Uri
 
 
 @Composable
@@ -85,13 +89,26 @@ fun MemoryDetailPage(navController: NavController,memoryId: String?, viewModel: 
         Spacer(modifier = Modifier.height(20.dp))
 
         memory.imageUrl?.let { imageUrl ->
-            Image(
-                painter = rememberAsyncImagePainter(imageUrl),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(250.dp)
-                    .height(180.dp)
-            )
+            val context = LocalContext.current
+            Log.d("MemoryDetail", "Loading image from path: $imageUrl")
+            
+            val imageFile = File(imageUrl)
+            if (imageFile.exists()) {
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(context)
+                            .data(imageFile)
+                            .crossfade(true)
+                            .build()
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(250.dp)
+                        .height(180.dp)
+                )
+            } else {
+                Log.e("MemoryDetail", "Image file does not exist: $imageUrl")
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
