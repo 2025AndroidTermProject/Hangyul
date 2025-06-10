@@ -53,7 +53,8 @@ fun EmotionAnalysisCard(
 ) {
     Box(
         modifier = Modifier
-            .height(173.dp)
+            .fillMaxWidth()
+            .height(185.dp)
             .background(color = Color(0x40FFFFFF), shape = RoundedCornerShape(20.dp))
             .padding(18.dp)
     ) {
@@ -70,7 +71,7 @@ fun EmotionAnalysisCard(
                 fontFamily = FontFamily(Font(R.font.pretendard_semibold))
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(17.dp))
 
             // 감정 분석 결과 (이모지 + 텍스트)
             Box(
@@ -85,7 +86,7 @@ fun EmotionAnalysisCard(
                 )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(17.dp))
 
             // 위로 격려 메시지
             Text(
