@@ -1,6 +1,7 @@
 package com.android.hangyul
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.android.hangyul.navigation.NavGraph
 import androidx.navigation.compose.rememberNavController
+import com.android.hangyul.ml.EmotionAnalyzer
 import com.android.hangyul.ui.theme.HangyulTheme
 import com.android.hangyul.ui.components.NaviBar
 import com.android.hangyul.ui.components.TopBar
@@ -23,9 +25,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
+        // ✅ 감정 분석 테스트 코드
+        val analyzer = EmotionAnalyzer(this)
+        val testSentences = listOf(
+            "정말 행복한 하루야",
+            "진짜 짜증나고 화가 나",
+            "뭔가 불안하고 걱정돼",
+            "배신당한 것 같아",
+            "오늘 너무 감사한 일이 있었어",
+            "혼란스럽고 당황스러워"
+        )
+        for (sentence in testSentences) {
+            val result = analyzer.analyzeEmotion(sentence)
+            Log.d("TestEmotion", "\"$sentence\" → 예측 감정: $result")
+        }
+        analyzer.close()
+
         Places.initialize(applicationContext, "AIzaSyDz8UvMNJtUipKK2WRtKjB0IZqmTG1ih3M")
         enableEdgeToEdge()
         setContent {
+
             HangyulTheme {
                 val navController = rememberNavController()
 

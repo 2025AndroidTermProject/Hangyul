@@ -21,6 +21,10 @@ android {
     namespace = "com.android.hangyul"
     compileSdk = 35
 
+    aaptOptions {
+        noCompress("tflite")
+    }
+
     defaultConfig {
         applicationId = "com.android.hangyul"
         minSdk = 26
@@ -94,4 +98,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("com.google.code.gson:gson:2.10.1") // JSON 파싱을 위해 Gson 추가
+
+    implementation("org.tensorflow:tensorflow-lite:2.17.0")
 }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Build
 import android.util.Base64
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,17 +52,20 @@ import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import java.util.Date
+import java.time.ZoneId
 import com.android.hangyul.ui.components.NaviBar
 import com.android.hangyul.ui.components.TopBar
 import com.android.hangyul.ui.theme.HangyulTheme
 import kotlinx.coroutines.Dispatchers
-import com.android.hangyul.util.DiaryUtil
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.android.hangyul.viewmodel.DiaryViewModel
+import com.android.hangyul.data.DiaryEntry as DataDiaryEntry
 
 @Composable
 fun DiaryPage(
     navController: NavController,
-    entries: List<DiaryEntry> = listOf(),
-    fileName: String? = null
+    viewModel: DiaryViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val activity = context as? Activity
@@ -76,17 +81,29 @@ fun DiaryPage(
     val seconds = remember { mutableStateOf(0) }
     val recordAudioPermission = Manifest.permission.RECORD_AUDIO
     val convertedText = remember { mutableStateOf<String?>(null) }
+    val entries by viewModel.allEntries.collectAsState(initial = emptyList())
+
+    val hasTodayEntry = remember(entries) {
+        entries.any { entry ->
+            val entryDate = entry.date?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+            entryDate == today
+        }
+    }
 
     fun startRecording() {
         try {
             val audioFile = File(context.filesDir, "recording_${System.currentTimeMillis()}.amr")
             recordFilePath.value = audioFile.absolutePath
 
-            recorder.value = MediaRecorder().apply {
+            recorder.value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                MediaRecorder(context)
+            } else {
+                MediaRecorder()
+            }.apply {
                 setAudioSource(MediaRecorder.AudioSource.MIC)
                 setOutputFormat(MediaRecorder.OutputFormat.AMR_NB)
                 setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-                setOutputFile(audioFile.absolutePath)
+                setOutputFile(recordFilePath.value)
                 prepare()
                 start()
             }
@@ -97,9 +114,9 @@ fun DiaryPage(
                 while (true) {
                     delay(1000)
                     seconds.value++
-                    val min = seconds.value / 60
-                    val sec = seconds.value % 60
-                    duration.value = String.format("%02d:%02d", min, sec)
+                    val minutes = String.format("%02d", seconds.value / 60)
+                    val secs = String.format("%02d", seconds.value % 60)
+                    duration.value = "$minutes:$secs"
                 }
             }
         } catch (e: Exception) {
@@ -116,28 +133,28 @@ fun DiaryPage(
             }
             recorder.value = null
             timerJob?.cancel()
-            timerJob = null
             recordingState.value = RecordingState.Finished
 
-            // 녹음 완료 후 텍스트 변환 시작
+            // 녹음 파일을 텍스트로 변환
             recordFilePath.value?.let { filePath ->
-                coroutineScope.launch(Dispatchers.IO) {
-                    val apiKey = BuildConfig.SPEECH_TO_TEXT_API_KEY
-                    val result = DiaryUtil.speechToText(File(filePath), apiKey)
-                    withContext(Dispatchers.Main) {
-                        convertedText.value = result
-                        if (result == null) {
-                            Toast.makeText(context, "음성 변환에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                        } else if (result.isNullOrEmpty()) {
-                             Toast.makeText(context, "변환된 텍스트가 없습니다.", Toast.LENGTH_SHORT).show()
+                coroutineScope.launch {
+                    try {
+                        val text = convertAudioToText(filePath)
+                        convertedText.value = text
+                        // 감정 분석 및 DB 저장
+                        if (!text.isNullOrBlank()) {
+                            viewModel.addDiaryEntry(text)
+                        } else {
+                            Toast.makeText(context, "변환된 텍스트가 없습니다.", Toast.LENGTH_SHORT).show()
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(context, "텍스트 변환에 실패했습니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "녹음 중지에 실패했습니다.\n${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -196,14 +213,19 @@ fun DiaryPage(
             Spacer(modifier = Modifier.height(12.dp))
 
             ConvertedDiaryCard(
-                fileName = recordFilePath.value,
+                hasTodayEntry = hasTodayEntry,
+                formattedDate = formattedDate,
                 onClick = {
-                    if (!recordFilePath.value.isNullOrBlank() && !convertedText.value.isNullOrBlank()) {
-                        navController.navigate("diaryDetail/$dateForRoute?convertedText=${convertedText.value}")
-                    } else if (recordFilePath.value.isNullOrBlank()) {
-                        Toast.makeText(context, "녹음된 파일이 없습니다.", Toast.LENGTH_SHORT).show()
-                    } else if (convertedText.value.isNullOrBlank()) {
-                        Toast.makeText(context, "텍스트 변환 중이거나 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    if (hasTodayEntry) {
+                        val todayEntry = entries.firstOrNull { entry ->
+                            val entryDate = entry.date?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+                            entryDate == today
+                        }
+                        todayEntry?.let { entry ->
+                            navController.navigate("diaryDetail/${entry.id}")
+                        } ?: Toast.makeText(context, "오늘 일기를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "아직 작성된 오늘의 일기가 없어요.", Toast.LENGTH_SHORT).show()
                     }
                 }
             )
@@ -211,10 +233,10 @@ fun DiaryPage(
             Spacer(modifier = Modifier.height(12.dp))
 
             DiaryHistoryCard(
-                entries = entries,
+                entries = entries.take(3),
                 onHeaderClick = { navController.navigate("diaryHistory") },
                 onEntryClick = { entry ->
-                    navController.navigate("diaryDetail/${entry.date}")
+                    navController.navigate("diaryDetail/${entry.id}")
                 }
             )
 
@@ -223,19 +245,93 @@ fun DiaryPage(
     }
 }
 
+private suspend fun convertAudioToText(filePath: String): String? {
+    return withContext(Dispatchers.IO) {
+        val audioFile = File(filePath)
+        if (!audioFile.exists()) {
+            Log.e("DiaryPage", "오디오 파일이 존재하지 않음: $filePath")
+            return@withContext null
+        }
+
+        val client = OkHttpClient()
+        val audioBytes = audioFile.readBytes()
+        Log.d("DiaryPage", "오디오 파일 크기: ${audioBytes.size} bytes")
+        
+        val base64Audio = Base64.encodeToString(audioBytes, Base64.NO_WRAP)
+        Log.d("DiaryPage", "Base64 인코딩 완료")
+
+        val json = Gson().toJson(mapOf(
+            "config" to mapOf(
+                "encoding" to "AMR",
+                "sampleRateHertz" to 8000,
+                "languageCode" to "ko-KR"
+            ),
+            "audio" to mapOf(
+                "content" to base64Audio
+            )
+        ))
+
+        val requestBody = json.toRequestBody("application/json; charset=utf-8".toMediaType())
+        val request = Request.Builder()
+            .url("https://speech.googleapis.com/v1/speech:recognize?key=${BuildConfig.SPEECH_TO_TEXT_API_KEY}")
+            .post(requestBody)
+            .build()
+
+        try {
+            Log.d("DiaryPage", "API 요청 시작")
+            val response = client.newCall(request).execute()
+            val responseBody = response.body?.string()
+            Log.d("DiaryPage", "API 응답 코드: ${response.code}")
+            Log.d("DiaryPage", "API 응답 내용: $responseBody")
+
+            if (response.isSuccessful) {
+                val responseJson = Gson().fromJson(responseBody, Map::class.java) as Map<*, *>
+                val results = responseJson["results"] as? List<*> ?: emptyList<Any>()
+                if (results.isNotEmpty()) {
+                    val firstResult = results[0] as Map<*, *>
+                    val alternatives = firstResult["alternatives"] as? List<*> ?: emptyList<Any>()
+                    if (alternatives.isNotEmpty()) {
+                        val firstAlternative = alternatives[0] as Map<*, *>
+                        val transcript = firstAlternative["transcript"] as? String
+                        if (transcript != null) {
+                            Log.d("DiaryPage", "텍스트 변환 성공: $transcript")
+                            Log.d("DiaryPage", "변환된 텍스트 길이: ${transcript.length}")
+                            Log.d("DiaryPage", "변환된 텍스트 첫 100자: ${transcript.take(100)}")
+                            return@withContext transcript
+                        }
+                    }
+                }
+                Log.e("DiaryPage", "변환된 텍스트가 없음")
+            } else {
+                Log.e("DiaryPage", "API 오류: ${response.code} - $responseBody")
+            }
+        } catch (e: Exception) {
+            Log.e("DiaryPage", "텍스트 변환 중 오류 발생", e)
+            e.printStackTrace()
+        }
+        null
+    }
+}
+
+private fun getEmojiForEmotion(emotion: String): String {
+    return when (emotion) {
+        "공포" -> "😨"
+        "놀람" -> "😲"
+        "분노" -> "😠"
+        "슬픔" -> "😢"
+        "중립" -> "😐"
+        "행복" -> "😊"
+        "혐오" -> "🤢"
+        else -> "😐"
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DiaryPagePreview() {
-    val dummyEntries = listOf(
-        DiaryEntry("5월 26일", "😊", "행복", "오늘은 기분이 좋았어요!","위로"),
-        DiaryEntry("5월 25일", "🥺", "슬픔", "오늘은 혼자있는 시간이 많았나봐요","위로")
-    )
-
     HangyulTheme {
         DiaryPage(
-            navController = androidx.navigation.compose.rememberNavController(),
-            entries = dummyEntries,
-            fileName = "25_06_04.mp3"
+            navController = androidx.navigation.compose.rememberNavController()
         )
     }
 }

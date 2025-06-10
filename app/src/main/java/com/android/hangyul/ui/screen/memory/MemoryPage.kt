@@ -4,12 +4,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,30 +42,38 @@ fun MemoryPage(navController: NavController, viewModel: MemoryViewModel = viewMo
         viewModel.fetchMemories()
     }
 
-    Column  (
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp),
-
-        ){
-        memories.forEach { memory ->
-            ListBtn(
-                icon = R.drawable.ic_nav_memory,
-                title = memory.title,
-                date = memory.date,
-                modifier = Modifier.clickable {
-                    navController.navigate("memoryDetail/${memory.id}")
-                })
-            Spacer(modifier = Modifier.height(15.dp))
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(15.dp),
+            contentPadding = PaddingValues(
+                top = 10.dp,
+                bottom = 40.dp,
+                start = 30.dp,
+                end = 30.dp
+            )
+        ) {
+            items(memories) { memory ->
+                ListBtn(
+                    icon = R.drawable.ic_nav_memory,
+                    title = memory.title,
+                    date = memory.date,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate("memoryDetail/${memory.id}")
+                        }
+                )
+            }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 25.dp, bottom = 25.dp),
+                .padding(end = 25.dp, bottom = 25.dp)
+                .align(Alignment.BottomEnd),
             horizontalArrangement = Arrangement.End
         ) {
             AddBtn("추억 등록", modifier = Modifier.clickable { navController.navigate("memoryAdd") })
