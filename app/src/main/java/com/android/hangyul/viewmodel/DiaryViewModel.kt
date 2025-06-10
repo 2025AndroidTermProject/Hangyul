@@ -1,21 +1,27 @@
 package com.android.hangyul.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.hangyul.data.DiaryEntry
 import com.android.hangyul.ml.EmotionAnalyzer
 import com.android.hangyul.util.EmotionCommentProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Date
 
 class DiaryViewModel(application: Application) : AndroidViewModel(application) {
     private val db = FirebaseFirestore.getInstance()
-    private val emotionAnalyzer = EmotionAnalyzer(application)
+    // ✅ lazy 초기화로 변경 (ANR 방지)
+    private val emotionAnalyzer by lazy {
+        EmotionAnalyzer(application)
+    }
 
     private val _allEntries = MutableStateFlow<List<DiaryEntry>>(emptyList())
     val allEntries: StateFlow<List<DiaryEntry>> = _allEntries.asStateFlow()
@@ -48,7 +54,11 @@ class DiaryViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addDiaryEntry(content: String) {
         viewModelScope.launch {
-            val emotion = emotionAnalyzer.analyzeEmotion(content)
+            // ✅ 백그라운드 스레드에서 감정 분석 실행
+            val emotion = withContext(Dispatchers.Default) {
+
+                emotionAnalyzer.analyzeEmotion(content)
+            }
             val comfortMessage = EmotionCommentProvider.getRandomComment(emotion)
             
             val entry = DiaryEntry(

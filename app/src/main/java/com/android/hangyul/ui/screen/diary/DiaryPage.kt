@@ -232,7 +232,7 @@ fun DiaryPage(
             Spacer(modifier = Modifier.height(12.dp))
 
             DiaryHistoryCard(
-                entries = entries,
+                entries = entries.take(3),
                 onHeaderClick = { navController.navigate("diaryHistory") },
                 onEntryClick = { entry ->
                     navController.navigate("diaryDetail/${entry.id}")
@@ -296,12 +296,12 @@ private suspend fun convertAudioToText(filePath: String): String? {
 
 private fun getEmojiForEmotion(emotion: String): String {
     return when (emotion) {
-        "기쁨" -> "😊"
-        "슬픔" -> "😢"
-        "분노" -> "😠"
-        "불안" -> "😰"
-        "중립" -> "😐"
+        "공포" -> "😨"
         "놀람" -> "😲"
+        "분노" -> "😠"
+        "슬픔" -> "😢"
+        "중립" -> "😐"
+        "행복" -> "😊"
         "혐오" -> "🤢"
         else -> "😐"
     }
