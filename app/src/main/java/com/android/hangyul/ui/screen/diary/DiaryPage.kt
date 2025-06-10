@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Build
 import android.util.Base64
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -232,7 +233,7 @@ fun DiaryPage(
             Spacer(modifier = Modifier.height(12.dp))
 
             DiaryHistoryCard(
-                entries = entries,
+                entries = entries.take(3),
                 onHeaderClick = { navController.navigate("diaryHistory") },
                 onEntryClick = { entry ->
                     navController.navigate("diaryDetail/${entry.id}")
@@ -248,12 +249,16 @@ private suspend fun convertAudioToText(filePath: String): String? {
     return withContext(Dispatchers.IO) {
         val audioFile = File(filePath)
         if (!audioFile.exists()) {
+            Log.e("DiaryPage", "오디오 파일이 존재하지 않음: $filePath")
             return@withContext null
         }
 
         val client = OkHttpClient()
         val audioBytes = audioFile.readBytes()
+        Log.d("DiaryPage", "오디오 파일 크기: ${audioBytes.size} bytes")
+        
         val base64Audio = Base64.encodeToString(audioBytes, Base64.NO_WRAP)
+        Log.d("DiaryPage", "Base64 인코딩 완료")
 
         val json = Gson().toJson(mapOf(
             "config" to mapOf(
@@ -273,9 +278,13 @@ private suspend fun convertAudioToText(filePath: String): String? {
             .build()
 
         try {
+            Log.d("DiaryPage", "API 요청 시작")
             val response = client.newCall(request).execute()
+            val responseBody = response.body?.string()
+            Log.d("DiaryPage", "API 응답 코드: ${response.code}")
+            Log.d("DiaryPage", "API 응답 내용: $responseBody")
+
             if (response.isSuccessful) {
-                val responseBody = response.body?.string()
                 val responseJson = Gson().fromJson(responseBody, Map::class.java) as Map<*, *>
                 val results = responseJson["results"] as? List<*> ?: emptyList<Any>()
                 if (results.isNotEmpty()) {
@@ -283,11 +292,21 @@ private suspend fun convertAudioToText(filePath: String): String? {
                     val alternatives = firstResult["alternatives"] as? List<*> ?: emptyList<Any>()
                     if (alternatives.isNotEmpty()) {
                         val firstAlternative = alternatives[0] as Map<*, *>
-                        return@withContext firstAlternative["transcript"] as? String
+                        val transcript = firstAlternative["transcript"] as? String
+                        if (transcript != null) {
+                            Log.d("DiaryPage", "텍스트 변환 성공: $transcript")
+                            Log.d("DiaryPage", "변환된 텍스트 길이: ${transcript.length}")
+                            Log.d("DiaryPage", "변환된 텍스트 첫 100자: ${transcript.take(100)}")
+                            return@withContext transcript
+                        }
                     }
                 }
+                Log.e("DiaryPage", "변환된 텍스트가 없음")
+            } else {
+                Log.e("DiaryPage", "API 오류: ${response.code} - $responseBody")
             }
         } catch (e: Exception) {
+            Log.e("DiaryPage", "텍스트 변환 중 오류 발생", e)
             e.printStackTrace()
         }
         null
@@ -296,12 +315,12 @@ private suspend fun convertAudioToText(filePath: String): String? {
 
 private fun getEmojiForEmotion(emotion: String): String {
     return when (emotion) {
-        "기쁨" -> "😊"
-        "슬픔" -> "😢"
-        "분노" -> "😠"
-        "불안" -> "😰"
-        "중립" -> "😐"
+        "공포" -> "😨"
         "놀람" -> "😲"
+        "분노" -> "😠"
+        "슬픔" -> "😢"
+        "중립" -> "😐"
+        "행복" -> "😊"
         "혐오" -> "🤢"
         else -> "😐"
     }
