@@ -1,6 +1,8 @@
 package com.android.hangyul.ui.screen.memory
 
 import android.content.Intent
+import android.net.Uri
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,6 +37,9 @@ import com.android.hangyul.R
 import com.android.hangyul.ui.components.AddInputField
 import com.android.hangyul.viewmodel.Memory
 import com.android.hangyul.viewmodel.MemoryViewModel
+import android.util.Log
+import java.io.File
+import java.io.FileOutputStream
 
 @Composable
 fun MemoryAddPage(viewModel: MemoryViewModel, onSave: ()->Unit) {
@@ -51,7 +56,23 @@ fun MemoryAddPage(viewModel: MemoryViewModel, onSave: ()->Unit) {
     ) { result ->
         val uri = result.data?.data
         uri?.let {
-            viewModel.addImage(it.toString())
+            try {
+                // 이미지를 앱의 내부 저장소에 복사
+                val inputStream = context.contentResolver.openInputStream(it)
+                val fileName = "memory_image_${System.currentTimeMillis()}.jpg"
+                val file = File(context.filesDir, fileName)
+                
+                inputStream?.use { stream ->
+                    FileOutputStream(file).use { output ->
+                        stream.copyTo(output)
+                    }
+                }
+                
+                Log.d("MemoryAdd", "Image saved to: ${file.absolutePath}")
+                viewModel.addImage(file.absolutePath)
+            } catch (e: Exception) {
+                Log.e("MemoryAdd", "Error saving image", e)
+            }
         }
     }
 
@@ -170,4 +191,42 @@ fun MemoryAddPage(viewModel: MemoryViewModel, onSave: ()->Unit) {
             Text("저장")
         }
     }
+}
+
+private fun getRealPathFromUri(context: android.content.Context, uri: Uri): String? {
+    try {
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            val docId = DocumentsContract.getDocumentId(uri)
+            if ("com.android.providers.media.documents" == uri.authority) {
+                val id = docId.split(":")[1]
+                val selection = "_id=?"
+                return getDataColumn(context, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection, arrayOf(id))
+            }
+        } else if ("content" == uri.scheme) {
+            return getDataColumn(context, uri, null, null)
+        } else if ("file" == uri.scheme) {
+            return uri.path
+        }
+    } catch (e: Exception) {
+        Log.e("MemoryAdd", "Error getting real path from URI", e)
+    }
+    return null
+}
+
+private fun getDataColumn(context: android.content.Context, uri: Uri, selection: String?, selectionArgs: Array<String>?): String? {
+    var cursor: android.database.Cursor? = null
+    val column = "_data"
+    val projection = arrayOf(column)
+    try {
+        cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, null)
+        if (cursor?.moveToFirst() == true) {
+            val columnIndex = cursor.getColumnIndexOrThrow(column)
+            return cursor.getString(columnIndex)
+        }
+    } catch (e: Exception) {
+        Log.e("MemoryAdd", "Error getting data column", e)
+    } finally {
+        cursor?.close()
+    }
+    return null
 }

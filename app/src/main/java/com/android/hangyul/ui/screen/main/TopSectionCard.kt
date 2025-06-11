@@ -35,80 +35,80 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.hangyul.R
 import com.android.hangyul.ui.theme.HangyulTheme
+import com.android.hangyul.data.DiaryEntry
 
 @Composable
-fun TopSectionCard() {
-        Box(
+fun TopSectionCard(
+    todayEntry: DiaryEntry? = null,
+    formattedDate: String = ""
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFF6949EE), Color(0xFF8FB7FD))
+                )
+            )
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
-                .background(
-                    Brush.verticalGradient(
-                        listOf(Color(0xFF8B6DE0), Color(0xFFB79BFA))
-                    )
-                )
+                .padding(20.dp)
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(20.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        modifier = Modifier.padding(12.dp),
-                        text = "한결이",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(Font(R.font.pretendard_bold)),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFFFFFFFF),
-                            )
+                Text(
+                    modifier = Modifier.padding(12.dp),
+                    text = "한결이",
+                    style = TextStyle(
+                        fontSize = 30.sp,
+                        fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFFFFFFFF),
                     )
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(R.drawable.main_profile_img),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(CircleShape)
-
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = "마채태님",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFFFFFFFF),
-
-                            )
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(20.dp))
-                EmotionAnalysisCard(
-                    "오늘은 조금 지친 마음이 느껴졌어요",
-                    "오늘도 잘 버텼어요. 마음이 괜찮아 질거예요.",
-                    "5/27(화)",
-                    onClick = {},
-                    modifier = Modifier
                 )
-
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(R.drawable.main_profile_img),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = "마채태님",
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontFamily = FontFamily(Font(R.font.pretendard_semibold)),
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFFFFFFFF),
+                    )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+            EmotionAnalysisCard(
+                analysisText = todayEntry?.emotion ?: "아직 오늘의 일기가 없어요",
+                encouragementMsg = todayEntry?.comfortMessage ?: "오늘의 일기를 작성해보세요",
+                date = formattedDate,
+                onClick = {},
+                modifier = Modifier
+            )
         }
     }
-
+}
 
 @Composable
 @Preview
-fun TopSectionCardPreview(){
+fun TopSectionCardPreview() {
     HangyulTheme {
         TopSectionCard()
     }

@@ -13,9 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-emotion_model.tflite
-emotion_model2.tflite
-emotion_model3.tflite
-sentiment_model_improved.tflite
-sentiment_model.tflite
-emotion_model_7class.tflite
+*.tflite
